@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div>
       <HomeHeader />
-      <TextTape />
+      <TextTape type="text" />
       <ContainerServices />
       <AboutContainer />
       <StepsContainer />
@@ -19,6 +19,7 @@ export default function Home() {
       <QuestionsContainer />
       <OnlineAppointment />
       <ClientSaying />
+      <TextTape type="logo" />
     </div>
   );
 }
