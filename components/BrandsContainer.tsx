@@ -164,9 +164,11 @@ export default function BrandsContainer() {
                         style={{
                           objectFit: "contain",
                         }}
-                        quality={75}
+                        quality={50}
                         priority={index === 0 && currentIndex === 0}
                         loading={index > 0 ? "lazy" : undefined}
+                        placeholder="blur"
+                        blurDataURL={`/brands/${brand}.png`}
                       />
                     </div>
                   </div>
