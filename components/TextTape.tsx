@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 
 export default function TextTape() {
   const textComponents = [

@@ -1,4 +1,3 @@
-import { title } from "process";
 import pic1 from "@/public/servicesPic/pic1.png";
 import pic2 from "@/public/servicesPic/pic2.png";
 import pic3 from "@/public/servicesPic/pic3.png";

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { BiSolidPhoneCall } from "react-icons/bi";
 import Image from "next/image";
 export default function Header() {

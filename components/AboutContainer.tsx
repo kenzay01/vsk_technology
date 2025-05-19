@@ -20,10 +20,10 @@ export default function AboutContainer() {
           <span className="text-amber-500 font-semibold">VSK Technology</span> –
           your trusted appliance repair experts across Palm Springs and
           surrounding areas. With years of hands-on <br /> experience and a
-          customer-first approach, we're here to bring your home appliances back
+          customer-first approach, we`re here to bring your home appliances back
           to life quickly, efficiently, and affordably. <br />
           At VSK Technology, we understand how frustrating a broken appliance
-          can be. That's why we offer fast, reliable service at a{" "}
+          can be. That`s why we offer fast, reliable service at a{" "}
           <span className="font-bold">
             flat rate of <br /> just $80
           </span>{" "}
