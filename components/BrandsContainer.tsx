@@ -164,7 +164,9 @@ export default function BrandsContainer() {
                         style={{
                           objectFit: "contain",
                         }}
-                        priority={index === 1}
+                        quality={75}
+                        priority={index === 0 && currentIndex === 0}
+                        loading={index > 0 ? "lazy" : undefined}
                       />
                     </div>
                   </div>
