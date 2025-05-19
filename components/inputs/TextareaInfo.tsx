@@ -5,6 +5,7 @@ interface TextareaInfoProps {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   name?: string;
+  error?: string;
 }
 
 export function TextareaInfo({
@@ -14,6 +15,7 @@ export function TextareaInfo({
   value,
   onChange,
   name,
+  error,
 }: TextareaInfoProps) {
   return (
     <div className="mb-6 w-full">
@@ -22,13 +24,16 @@ export function TextareaInfo({
       </label>
       <textarea
         name={name}
-        className="w-full p-3 border-b border-gray-300 focus:outline-none focus:border-b-2 focus:border-amber-500"
+        className={`w-full p-3 border-b border-gray-300 focus:outline-none focus:border-b-2 focus:border-amber-500 ${
+          error ? "border-red-500" : ""
+        }`}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         required={required}
         rows={3}
       />
+      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );
 }

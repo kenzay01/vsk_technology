@@ -28,12 +28,18 @@ export default function ServiceItem({
       </div>
 
       <div className="flex flex-col gap-3">
-        <button className="py-2.5 px-4 bg-amber-500 hover:bg-amber-600 rounded-full text-white font-medium text-md cursor-pointer transition duration-200 ease shadow-md">
+        <a
+          href="#contactUs"
+          className="py-2.5 px-4 bg-amber-500 hover:bg-amber-600 rounded-full text-white font-medium text-md cursor-pointer transition duration-200 ease shadow-md text-center"
+        >
           Call Us
-        </button>
-        <button className="py-2.5 px-4 bg-amber-500 hover:bg-amber-600 rounded-full text-white font-medium text-md cursor-pointer transition duration-200 ease shadow-md">
+        </a>
+        <a
+          href="#appointment"
+          className="py-2.5 px-4 bg-amber-500 hover:bg-amber-600 rounded-full text-white font-medium text-md cursor-pointer transition duration-200 ease shadow-md text-center"
+        >
           Book Online
-        </button>
+        </a>
       </div>
     </div>
   );

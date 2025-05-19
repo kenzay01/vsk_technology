@@ -7,15 +7,19 @@ export default function Header() {
   const LinksList = [
     {
       name: "Services",
+      href: "#services",
     },
     {
       name: "Service Area",
+      href: "#serviceArea",
     },
     {
       name: "About Us",
+      href: "#aboutUs",
     },
     {
       name: "Contact Us",
+      href: "#contactUs",
     },
   ];
 
@@ -25,14 +29,22 @@ export default function Header() {
         <Image src="/logo.png" alt="logo" width={140} height={140} />
         <ul className="flex gap-6 ml-4">
           {LinksList.map((link) => (
-            <li key={link.name} className="text-md hover:text-amber-500">
-              <a href="#">{link.name}</a>
+            <li
+              key={link.name}
+              className="text-md hover:text-amber-500 cursor-pointer"
+            >
+              <a href={link.href}>{link.name}</a>
             </li>
           ))}
         </ul>
       </div>
       <div className="flex-1/2 flex justify-start items-center w-full max-w-7xl gap-8">
-        <button className="px-18 py-2 bg-black rounded text-white text-sm cursor-pointer hover:bg-amber-500 transition duration-200 ease">
+        <button
+          onClick={() => {
+            window.location.href = "#appointment";
+          }}
+          className="px-18 py-2 bg-black rounded text-white text-sm cursor-pointer hover:bg-amber-500 transition duration-200 ease"
+        >
           Book Online
         </button>
         <div className="flex items-center gap-6 ml-4">

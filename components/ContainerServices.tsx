@@ -23,7 +23,10 @@ export default function ContainerServices() {
     },
   ];
   return (
-    <section className="flex flex-col justify-center items-center bg-white p-8 gap-2 w-full">
+    <section
+      className="flex flex-col justify-center items-center bg-white p-8 gap-2 w-full"
+      id="services"
+    >
       <div className="text-4xl italic font-serif font-bold">Our Services</div>
       <div className="flex justify-center items-center gap-8 w-full max-w-7xl">
         {services.map((service) => (

@@ -47,7 +47,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-white py-8 px-4">
+    <footer className="w-full bg-white py-8 px-4" id="contactUs">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
         <div className="flex-1">
           <h1 className="text-2xl font-serif font-bold mb-4">Request a call</h1>
