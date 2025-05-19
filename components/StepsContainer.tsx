@@ -13,10 +13,13 @@ export default function StepsContainer() {
             <h1 className="text-md font-bold text-lg">(213) 715-5757</h1>
           </div>
           <h2 className="font-bold font-serif">or leave a request</h2>
-          <div className="mt-auto w-full">
-            <button className="py-4 w-full bg-amber-500 text-white hover:bg-amber-600 transition duration-300 font-medium rounded-md mt-4 cursor-pointer">
+          <div className="mt-auto w-full text-center mb-2">
+            <a
+              href="#appointment"
+              className="py-4 px-4 w-full bg-amber-500 text-white hover:bg-amber-600 transition duration-300 font-medium rounded-md mt-4 cursor-pointer"
+            >
               Book an Appointment
-            </button>
+            </a>
           </div>
         </div>
       ),
