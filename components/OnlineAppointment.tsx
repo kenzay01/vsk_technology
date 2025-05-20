@@ -1,4 +1,3 @@
-// OnlineAppointment.tsx - Виправлений код
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -9,13 +8,13 @@ import { TextareaInfo } from "./inputs/TextareaInfo";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { escapeMarkdown } from "@/funcs/escapeMarkdown";
 import { Toaster } from "./Toaster";
+import map from "@/public/map.png";
 
 export default function OnlineAppointment() {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
-  // Виправлена типізація для addToastRef
   const addToastRef = useRef<
     (message: string, type: "success" | "error") => void
   >(() => {});
@@ -45,16 +44,22 @@ export default function OnlineAppointment() {
     zipCode: "",
     name: "",
     phone: "",
+    streetAddress: "",
+    apartmentUnit: "",
     applianceTypes: [] as string[],
-    dateTime: "",
+    date: "",
+    timeSlot: "",
     text: "",
   });
   const [errors, setErrors] = useState({
     zipCode: "",
     name: "",
     phone: "",
+    streetAddress: "",
+    apartmentUnit: "",
     applianceTypes: "",
-    dateTime: "",
+    date: "",
+    timeSlot: "",
     text: "",
   });
 
@@ -69,8 +74,28 @@ export default function OnlineAppointment() {
     return zipRegex.test(zip) && zipCodes.includes(zip);
   };
 
+  const validateStreetAddress = (address: string) => {
+    return address.trim().length >= 5 || address === "";
+  };
+
+  const timeSlotOptions = [
+    "8am – 11am",
+    "9am – 12pm",
+    "10am – 1pm",
+    "11am – 2pm",
+    "12pm – 3pm",
+    "1pm – 4pm",
+    "2pm – 5pm",
+    "3pm – 6pm",
+    "4pm – 7pm",
+    "5pm – 8pm",
+    "6pm – 9pm",
+  ];
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -103,10 +128,24 @@ export default function OnlineAppointment() {
         ...prev,
         name: value === "" ? "Name is required" : "",
       }));
-    } else if (name === "dateTime" && isFormVisible) {
+    } else if (name === "streetAddress" && isFormVisible) {
+      const isValid = validateStreetAddress(value);
       setErrors((prev) => ({
         ...prev,
-        dateTime: value === "" ? "Date and time are required" : "",
+        streetAddress:
+          isValid || value === ""
+            ? ""
+            : "Street address must be at least 5 characters",
+      }));
+    } else if (name === "date" && isFormVisible) {
+      setErrors((prev) => ({
+        ...prev,
+        date: value === "" ? "Date is required" : "",
+      }));
+    } else if (name === "timeSlot" && isFormVisible) {
+      setErrors((prev) => ({
+        ...prev,
+        timeSlot: value === "" ? "Time slot is required" : "",
       }));
     } else if (name === "text" && isFormVisible) {
       setErrors((prev) => ({
@@ -148,12 +187,21 @@ export default function OnlineAppointment() {
           : errors.phone || validatePhone(formData.phone)
           ? ""
           : "Please enter a valid phone number (e.g., +12025550123)",
+      streetAddress:
+        !formData.streetAddress && isFormVisible
+          ? "Street address is required"
+          : errors.streetAddress ||
+            validateStreetAddress(formData.streetAddress)
+          ? ""
+          : "Street address must be at least 5 characters",
+      apartmentUnit: "",
       applianceTypes:
         formData.applianceTypes.length === 0 && isFormVisible
           ? "At least one appliance type must be selected"
           : "",
-      dateTime:
-        !formData.dateTime && isFormVisible ? "Date and time are required" : "",
+      date: !formData.date && isFormVisible ? "Date is required" : "",
+      timeSlot:
+        !formData.timeSlot && isFormVisible ? "Time slot is required" : "",
       text: !formData.text && isFormVisible ? "Message is required" : "",
     };
 
@@ -164,8 +212,10 @@ export default function OnlineAppointment() {
       newErrors.zipCode ||
       newErrors.name ||
       newErrors.phone ||
+      newErrors.streetAddress ||
       newErrors.applianceTypes ||
-      newErrors.dateTime ||
+      newErrors.date ||
+      newErrors.timeSlot ||
       newErrors.text
     ) {
       addToastRef.current?.("Please fix the form errors", "error");
@@ -175,13 +225,21 @@ export default function OnlineAppointment() {
     setLoading(true);
     try {
       const currentTime = new Date().toISOString();
-      const formattedDateTime = new Date(formData.dateTime).toLocaleString();
+      const formattedDateTime = `${new Date(
+        formData.date
+      ).toLocaleDateString()} ${formData.timeSlot}`;
 
       const messageText = `
 🔔 *New repair request*
 
 📌 *Request details:*
 \\- ZIP code: ${escapeMarkdown(formData.zipCode)}
+\\- Street address: ${escapeMarkdown(formData.streetAddress)}
+\\- Apartment/Unit${
+        formData.apartmentUnit
+          ? ` & Gate code: ${escapeMarkdown(formData.apartmentUnit)}`
+          : ": None"
+      }
 \\- Appliance types: ${escapeMarkdown(
         formData.applianceTypes.join(", ") || "None"
       )}
@@ -214,8 +272,11 @@ export default function OnlineAppointment() {
           zipCode: "",
           name: "",
           phone: "",
+          streetAddress: "",
+          apartmentUnit: "",
           applianceTypes: [],
-          dateTime: "",
+          date: "",
+          timeSlot: "",
           text: "",
         });
         setIsFormVisible(false);
@@ -238,133 +299,187 @@ export default function OnlineAppointment() {
 
   const applianceOptions = [
     "Refrigerator Repair",
-    "Washer/Dryer Repair",
-    "Range/Stove & Cooktop Repair",
+    "Washer Repair",
+    "Dryer Repair",
+    "Range Repair",
+    "Oven Repair",
+    "Stove Repair",
+    "Cooktop Repair",
     "Dishwasher Repair",
     "Microwave Repair",
   ];
 
   return (
-    <div
-      className="flex flex-col md:flex-row max-w-6xl mx-auto bg-white rounded-lg overflow-hidden"
-      id="appointment"
-    >
-      <Toaster addToast={addToastRef} />
-      <div className="w-full md:w-1/2 relative h-[400px]">
-        <Image
-          src={appointmentImage}
-          alt="Appliances for online appointment"
-          fill
-          className="object-contain w-full h-full"
-          quality={85}
-          priority
-          placeholder="blur"
-        />
-      </div>
-      <div className="w-full md:w-1/2 p-8">
-        <h2 className="text-5xl mb-8 font-serif">Online appointment</h2>
-        <div>
-          <InputInfo
-            label="ZIP Code"
-            placeholder="Enter your ZIP code"
-            name="zipCode"
-            value={formData.zipCode}
-            onChange={handleChange}
-            error={errors.zipCode}
-            maxLength={5}
-            pattern="^\d{5}$"
-            required={true}
-          />
-          {isFormVisible && (
-            <>
-              <InputInfo
-                label="Name"
-                placeholder="Enter your name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                error={errors.name}
-                required={true}
-              />
-              <InputInfo
-                label="Phone"
-                type="tel"
-                required={true}
-                placeholder="Enter your phone number"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                error={errors.phone}
-                maxLength={15}
-                pattern="^\+?[1-9]\d{0,2}(?:\s|-)?\(?\d{3}\)?(?:\s|-)?\d{3}(?:\s|-)?\d{4}$"
-              />
-              <div className="mb-6 w-full">
-                <label
-                  className="text-lg mb-2 font-medium text-gray-700 hover:cursor-pointer flex gap-2 items-center"
-                  onClick={() => {
-                    setIsOpen((prev) => !prev);
-                  }}
-                >
-                  Appliance type{" "}
-                  {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                  <span className="text-red-500">*</span>
-                </label>
-                {errors.applianceTypes && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.applianceTypes}
-                  </p>
-                )}
-                {isOpen && (
-                  <div className="space-y-2">
-                    {applianceOptions.map((option) => (
-                      <div key={option} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id={option}
-                          name="applianceTypes"
-                          value={option}
-                          checked={formData.applianceTypes.includes(option)}
-                          onChange={handleApplianceChange}
-                          className="mr-2 leading-tight"
-                        />
-                        <label htmlFor={option} className="text-gray-700">
-                          {option}
-                        </label>
-                      </div>
+    <section className="mt-8 sm:mt-12 md:mt-16 bg-white" id="serviceArea">
+      <h1 className="text-3xl sm:text-4xl font-serif font-bold italic ml-4 sm:ml-42 text-center md:text-left">
+        Service Area
+      </h1>
+      <div
+        className="flex flex-col md:flex-row max-w-6xl mx-auto bg-white rounded-lg overflow-hidden gap-8"
+        id="appointment"
+      >
+        <Toaster addToast={addToastRef} />
+        <div className="w-full md:w-1/2 p-8">
+          <h2 className="text-5xl mb-8 font-serif">Online appointment</h2>
+          <div>
+            <InputInfo
+              label="ZIP Code"
+              placeholder="Enter your ZIP code"
+              name="zipCode"
+              value={formData.zipCode}
+              onChange={handleChange}
+              error={errors.zipCode}
+              maxLength={5}
+              pattern="^\d{5}$"
+              required={true}
+            />
+            {isFormVisible && (
+              <>
+                <InputInfo
+                  label="Name"
+                  placeholder="Enter your name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  error={errors.name}
+                  required={true}
+                />
+                <InputInfo
+                  label="Phone"
+                  type="tel"
+                  required={true}
+                  placeholder="Enter your phone number"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  error={errors.phone}
+                  maxLength={15}
+                  pattern="^\+?[1-9]\d{0,2}(?:\s|-)?\(?\d{3}\)?(?:\s|-)?\d{3}(?:\s|-)?\d{4}$"
+                />
+                <InputInfo
+                  label="Street Address"
+                  placeholder="Enter your street address"
+                  name="streetAddress"
+                  value={formData.streetAddress}
+                  onChange={handleChange}
+                  error={errors.streetAddress}
+                  maxLength={100}
+                  required={true}
+                />
+                <InputInfo
+                  label="Apartment/Unit & Gate Code (if applicable)"
+                  placeholder="Enter apartment/unit and gate code"
+                  name="apartmentUnit"
+                  value={formData.apartmentUnit}
+                  onChange={handleChange}
+                  error={errors.apartmentUnit}
+                  maxLength={50}
+                />
+                <div className="mb-6 w-full">
+                  <label
+                    className="text-lg mb-2 font-medium text-gray-700 hover:cursor-pointer flex gap-2 items-center"
+                    onClick={() => {
+                      setIsOpen((prev) => !prev);
+                    }}
+                  >
+                    Appliance type{" "}
+                    {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                    <span className="text-red-500">*</span>
+                  </label>
+                  {errors.applianceTypes && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.applianceTypes}
+                    </p>
+                  )}
+                  {isOpen && (
+                    <div className="space-y-2">
+                      {applianceOptions.map((option) => (
+                        <div key={option} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            id={option}
+                            name="applianceTypes"
+                            value={option}
+                            checked={formData.applianceTypes.includes(option)}
+                            onChange={handleApplianceChange}
+                            className="mr-2 leading-tight"
+                          />
+                          <label htmlFor={option} className="text-gray-700">
+                            {option}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <InputInfo
+                  label="Date"
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                  error={errors.date}
+                  required={true}
+                />
+                <div className="mb-6 w-full">
+                  <label className="text-lg mb-2 font-medium text-gray-700 flex gap-2 items-center">
+                    Time Slot <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="timeSlot"
+                    value={formData.timeSlot}
+                    onChange={handleChange}
+                    className="w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    required
+                  >
+                    <option value="" disabled>
+                      Select a time slot
+                    </option>
+                    {timeSlotOptions.map((slot) => (
+                      <option key={slot} value={slot}>
+                        {slot}
+                      </option>
                     ))}
-                  </div>
-                )}
-              </div>
-              <InputInfo
-                label="Date and time"
-                type="datetime-local"
-                name="dateTime"
-                value={formData.dateTime}
-                onChange={handleChange}
-                error={errors.dateTime}
-                required={true}
-              />
-              <TextareaInfo
-                label="Text"
-                placeholder="Enter your message"
-                name="text"
-                value={formData.text}
-                onChange={handleChange}
-                error={errors.text}
-                required={true}
-              />
-              <div
-                onClick={!loading ? handleSubmit : undefined}
-                className={`w-full bg-amber-500 hover:bg-amber-600 text-white py-3 px-6 rounded-md font-medium text-lg text-center cursor-pointer transition-colors ${
-                  loading ? "opacity-70" : ""
-                }`}
-              >
-                {loading ? "Processing..." : "Confirm"}
-              </div>
-            </>
-          )}
+                  </select>
+                  {errors.timeSlot && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.timeSlot}
+                    </p>
+                  )}
+                </div>
+                <TextareaInfo
+                  label="Text"
+                  placeholder="Enter your message"
+                  name="text"
+                  value={formData.text}
+                  onChange={handleChange}
+                  error={errors.text}
+                  required={true}
+                />
+                <div
+                  onClick={!loading ? handleSubmit : undefined}
+                  className={`w-full bg-amber-500 hover:bg-amber-600 text-white py-3 px-6 rounded-md font-medium text-lg text-center cursor-pointer transition-colors ${
+                    loading ? "opacity-70" : ""
+                  }`}
+                >
+                  {loading ? "Processing..." : "Confirm"}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+        <div className="w-full md:w-1/2 relative h-[400px] mt-8">
+          <Image
+            src={map}
+            alt="map"
+            fill
+            className="object-contain w-full h-full rounded-xl"
+            quality={85}
+            priority
+            placeholder="blur"
+          />
         </div>
       </div>
-    </div>
+    </section>
   );
 }

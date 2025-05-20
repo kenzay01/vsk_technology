@@ -27,7 +27,7 @@ export default function Header() {
           alt="logo"
           width={140}
           height={140}
-          className="cursor-pointer w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32"
+          className="cursor-pointer w-32 h-32 sm:w-24 sm:h-24 md:w-46 md:h-46"
           onClick={() => {
             window.location.href = "/";
           }}

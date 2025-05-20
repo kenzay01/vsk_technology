@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import map from "@/public/map.png";
+import logo2 from "@/public/logo2.png";
 import { useState, useEffect } from "react";
 
 export default function AboutContainer() {
@@ -29,26 +30,40 @@ export default function AboutContainer() {
   }, []);
   return (
     <section className="w-full py-6 px-4 md:px-16 bg-white" id="aboutUs">
-      <h1 className="text-3xl sm:text-4xl font-serif font-bold italic ml-4 sm:ml-10 text-center md:text-left">
+      <h1 className="text-3xl sm:text-4xl font-serif font-bold italic ml-4 sm:ml-26 text-center md:text-left mb-4">
         About us
       </h1>
-      <div className="mt-4">
-        <p className="text-base sm:text-lg">
-          VSK Technology LLC was founded with a commitment to providing reliable
-          and affordable appliance repair services in Palm Springs, CA. With
-          years of hands-on experience, our team specializes in repairing
-          washers, dryers, dishwashers, refrigerators, ovens, stoves, ranges,
-          and cooktops. We know how frustrating a broken appliance can be, so we
-          offer emergency service and prioritize quick, efficient repairs. Our
-          mission is to deliver high-quality workmanship with honest pricing.
-          Our technicians are trained to handle all major brands and models,
-          ensuring that your appliances run smoothly again in no time. At VSK
-          Technology LLC, customer satisfaction is at the heart of everything we
-          do.
-        </p>
+      <div className="flex flex-col md:flex-row gap-6 px-6">
+        <div className="w-full h-full overflow-hidden relative mt-4">
+          <Image
+            src={logo2}
+            alt="logo2"
+            width={400}
+            height={400}
+            className="rounded-lg w-full h-auto"
+          />
+        </div>
+        <div className="mt-6">
+          <p className="text-base sm:text-lg">
+            VSK Technology LLC was founded with a commitment to providing
+            reliable and affordable appliance repair services in Palm Springs,
+            CA. With years of hands-on experience, our team specializes in
+            repairing washers, dryers, dishwashers, refrigerators, ovens,
+            stoves, ranges, and cooktops. We know how frustrating a broken
+            appliance can be, so we offer emergency service and prioritize
+            quick, efficient repairs. Our mission is to deliver high-quality
+            workmanship with honest pricing. Our technicians are trained to
+            handle all major brands and models, ensuring that your appliances
+            run smoothly again in no time. At VSK Technology LLC, customer
+            satisfaction is at the heart of everything we do. We take pride in
+            our transparent service, expert repairs, and dedication to doing the
+            job right the first time. Whether it’s a minor fix or a complex
+            issue, we’re here to help!
+          </p>
+        </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6">
+      {/* <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex flex-col gap-4" id="serviceArea">
             <p className="text-base sm:text-lg">
@@ -89,7 +104,7 @@ export default function AboutContainer() {
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

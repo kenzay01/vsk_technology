@@ -2,7 +2,7 @@
 
 export default function HomeHeader() {
   return (
-    <section className="flex flex-col justify-center items-center bg-white p-4 sm:p-6 pt-8 md:p-8 gap-2 w-full">
+    <section className="flex flex-col justify-center items-center bg-white p-4 sm:p-6 pt-8 md:p-8 gap-2 md:gap-6 w-full">
       <div className="flex justify-between w-full max-w-7xl items-end">
         <h1 className="text-4xl sm:text-5xl md:text-6xl italic font-serif font-bold">
           VSK Technology

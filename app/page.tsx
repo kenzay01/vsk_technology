@@ -14,10 +14,10 @@ export default function Home() {
       <TextTape type="text" />
       <ContainerServices />
       <AboutContainer />
+      <OnlineAppointment />
       <StepsContainer />
       <BrandsContainer />
       <QuestionsContainer />
-      <OnlineAppointment />
       <ClientSaying />
       <TextTape type="logo" />
     </div>

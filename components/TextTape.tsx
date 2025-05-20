@@ -82,8 +82,8 @@ export default function TextTape({ type }: TextTapeProps) {
             {Array(80)
               .fill(0)
               .map((_, index) => (
-                <div key={index} className="flex items-center mx-12">
-                  <Image src={logo} alt="logo" width={40} height={40} />
+                <div key={index} className="flex items-center mx-14">
+                  <Image src={logo} alt="logo" width={100} height={100} />
                   <div className="mx-1 text-2xl md:text-4xl text-amber-500 font-bold">
                     VSK Technology
                   </div>

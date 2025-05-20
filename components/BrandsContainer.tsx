@@ -1,18 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
-
 export default function BrandsContainer() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const containerRef = useRef(null);
-
-  // Список брендів з їх логотипами
   const brands = [
     "amana",
     "beko",
@@ -47,162 +38,64 @@ export default function BrandsContainer() {
     "zline",
   ];
 
-  const getVisibleCount = () => {
-    return typeof window !== "undefined" && window.innerWidth < 768 ? 2 : 3;
-  };
-
-  const [visibleCount, setVisibleCount] = useState(getVisibleCount());
-
   useEffect(() => {
-    const handleResize = () => {
-      setVisibleCount(getVisibleCount());
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const getExtendedBrands = () => {
-    return [...brands, ...brands, ...brands];
-  };
-
-  const extendedBrands = getExtendedBrands();
-  const startOffset = brands.length;
-
-  useEffect(() => {
-    startAutoRotation();
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+    const style = document.createElement("style");
+    style.textContent = `
+      @keyframes marquee-brands {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
       }
+
+      .animate-marquee-brands {
+        animation: marquee-brands 180s linear infinite;
+      }
+
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
     };
   }, []);
-
-  const startAutoRotation = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-
-    intervalRef.current = setInterval(() => {
-      goToNext();
-    }, 4000);
-  };
-
-  const goToPrevious = () => {
-    if (isTransitioning) return;
-
-    setIsTransitioning(true);
-    setCurrentIndex((prevIndex) => {
-      const newIndex = prevIndex === 0 ? brands.length - 1 : prevIndex - 1;
-      return newIndex;
-    });
-
-    resetInterval();
-
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 500);
-  };
-
-  const goToNext = () => {
-    if (isTransitioning) return;
-
-    setIsTransitioning(true);
-    setCurrentIndex((prevIndex) => {
-      const newIndex = (prevIndex + 1) % brands.length;
-      return newIndex;
-    });
-
-    resetInterval();
-
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 500);
-  };
-
-  const resetInterval = () => {
-    startAutoRotation();
-  };
-
-  const getVisibleBrands = () => {
-    const result = [];
-    const offset = startOffset + currentIndex;
-
-    for (let i = 0; i < visibleCount; i++) {
-      const index = (offset + i) % extendedBrands.length;
-      result.push(extendedBrands[index]);
-    }
-
-    return result;
-  };
 
   return (
     <div className="py-8 sm:py-12 md:py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+      <div className="mx-auto ">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-center italic mb-8 sm:mb-10 md:mb-12 font-serif">
           We Repair all brands
         </h2>
 
-        <div className="relative overflow-hidden" ref={containerRef}>
-          <div className="flex items-center justify-center">
-            <button
-              onClick={goToPrevious}
-              className="absolute left-2 sm:left-4 md:left-0 z-10 bg-white rounded-full p-1.5 sm:p-2 shadow-md hover:bg-gray-100 focus:outline-none cursor-pointer"
-              aria-label="Previous brand"
-              disabled={isTransitioning}
-            >
-              <IoIosArrowBack className="text-xl sm:text-2xl md:pr-0.5" />
-            </button>
-
-            <div className="w-full overflow-hidden">
-              <div className="flex justify-center items-center space-x-8 sm:space-x-12 md:space-x-36 py-4 transition-transform duration-500 ease-in-out">
-                {getVisibleBrands().map((brand, index) => (
-                  <div
-                    key={`${brand}-${index}`}
-                    className={`flex items-center justify-center w-24 h-16 sm:w-28 sm:h-20 md:w-36 md:h-28 transition-all duration-500 ${
-                      isTransitioning ? "scale-100" : "scale-100"
-                    }`}
-                    style={{
-                      transform: `translateX(${isTransitioning ? "-3%" : "0"})`,
-                      transition:
-                        "transform 600ms ease-in-out, opacity 600ms ease-in-out",
-                      opacity: isTransitioning ? 0.75 : 1,
-                    }}
-                  >
-                    <div className="relative w-full h-full">
-                      <Image
-                        src={`/brands/${brand}.png`}
-                        alt={`${brand} logo`}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-                        style={{
-                          objectFit: "contain",
-                        }}
-                        quality={50}
-                        priority={index === 0 && currentIndex === 0}
-                        loading={index > 0 ? "lazy" : undefined}
-                        placeholder="blur"
-                        blurDataURL={`/brands/${brand}.png`}
-                      />
-                    </div>
+        <div className="overflow-hidden w-full">
+          <div className="whitespace-nowrap flex">
+            <div className="animate-marquee-brands flex">
+              {[...brands, ...brands, ...brands].map((brand, index) => (
+                <div
+                  key={`${brand}-${index}`}
+                  className="flex items-center justify-center mx-4 sm:mx-6 md:mx-8 w-24 h-16 sm:w-28 sm:h-20 md:w-36 md:h-28"
+                >
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={`/brands/${brand}.png`}
+                      alt={`${brand} logo`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                      style={{
+                        objectFit: "contain",
+                      }}
+                      quality={50}
+                      priority={index === 0}
+                      loading={index > 0 ? "lazy" : undefined}
+                      placeholder="blur"
+                      blurDataURL={`/brands/${brand}.png`}
+                    />
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
-
-            <button
-              onClick={goToNext}
-              className="absolute right-2 sm:right-4 md:right-0 z-10 bg-white rounded-full p-1.5 sm:p-2 shadow-md hover:bg-gray-100 focus:outline-none cursor-pointer"
-              aria-label="Next brand"
-              disabled={isTransitioning}
-            >
-              <IoIosArrowForward className="text-xl sm:text-2xl md:pl-0.5" />
-            </button>
           </div>
         </div>
       </div>

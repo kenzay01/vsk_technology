@@ -59,7 +59,7 @@ export default function Footer() {
 \\- Submission time: ${escapeMarkdown(new Date(currentTime).toLocaleString())}
       `.trim();
 
-      console.log("Sending message to Telegram:", messageText);
+      // console.log("Sending message to Telegram:", messageText);
 
       const response = await fetch("/api/send-telegram", {
         method: "POST",
