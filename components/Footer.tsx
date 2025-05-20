@@ -1,13 +1,20 @@
+// Footer.tsx - Виправлений код
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { InputInfo } from "./inputs/InputInfo";
 import { escapeMarkdown } from "@/funcs/escapeMarkdown";
+import { Toaster } from "./Toaster";
 
 export default function Footer() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ phone: "" });
   const [errors, setErrors] = useState({ phone: "" });
+
+  // Виправлена типізація для addToastRef
+  const addToastRef = useRef<
+    (message: string, type: "success" | "error") => void
+  >(() => {});
 
   const validatePhone = (phone: string) => {
     const phoneRegex =
@@ -37,6 +44,7 @@ export default function Footer() {
           ? "Phone is required"
           : "Please enter a valid phone number (e.g., +12025550123 or (202) 555-0123)",
       }));
+      addToastRef.current?.("Please fix the phone number error", "error");
       return;
     }
 
@@ -64,16 +72,22 @@ export default function Footer() {
       });
 
       if (response.ok) {
-        alert("Thank you for your request! We will contact you soon.");
+        addToastRef.current?.(
+          "Thank you for your request! We will contact you soon.",
+          "success"
+        );
         setFormData({ phone: "" });
       } else {
         const errorData = await response.json();
         console.error("Failed to send data to Telegram:", errorData);
-        alert("Error sending the request. Please try again.");
+        addToastRef.current?.(
+          "Error sending the request. Please try again.",
+          "error"
+        );
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Server error. Please try again.");
+      addToastRef.current?.("Server error. Please try again.", "error");
     } finally {
       setLoading(false);
     }
@@ -84,6 +98,7 @@ export default function Footer() {
       className="w-full bg-white py-6 sm:py-6 md:py-8 px-4 sm:px-6 md:px-4"
       id="contactUs"
     >
+      <Toaster addToast={addToastRef} />
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-col md:flex-row justify-between items-center md:items-start gap-6 sm:gap-8 md:gap-12">
         <div className="flex-1">
           <h1 className="text-xl sm:text-xl md:text-2xl font-serif font-bold mb-3 sm:mb-4">

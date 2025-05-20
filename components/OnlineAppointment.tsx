@@ -1,17 +1,24 @@
+// OnlineAppointment.tsx - Виправлений код
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import appointmentImage from "@/public/appointment.png";
 import { InputInfo } from "./inputs/InputInfo";
 import { TextareaInfo } from "./inputs/TextareaInfo";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { escapeMarkdown } from "@/funcs/escapeMarkdown";
+import { Toaster } from "./Toaster";
 
 export default function OnlineAppointment() {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+
+  // Виправлена типізація для addToastRef
+  const addToastRef = useRef<
+    (message: string, type: "success" | "error") => void
+  >(() => {});
 
   const [zipCodes, setZipCodes] = useState<string[]>([]);
   useEffect(() => {
@@ -23,9 +30,11 @@ export default function OnlineAppointment() {
           setZipCodes(data.zipCodes);
         } else {
           console.error("Error loading zip codes");
+          addToastRef.current?.("Error loading zip codes", "error");
         }
       } catch (err) {
         console.error(`Server error ${err}`);
+        addToastRef.current?.(`Server error ${err}`, "error");
       }
     };
 
@@ -159,6 +168,7 @@ export default function OnlineAppointment() {
       newErrors.dateTime ||
       newErrors.text
     ) {
+      addToastRef.current?.("Please fix the form errors", "error");
       return;
     }
 
@@ -196,7 +206,10 @@ export default function OnlineAppointment() {
       });
 
       if (response.ok) {
-        alert("Thank you for your request! We will contact you soon.");
+        addToastRef.current?.(
+          "Thank you for your request! We will contact you soon.",
+          "success"
+        );
         setFormData({
           zipCode: "",
           name: "",
@@ -210,11 +223,14 @@ export default function OnlineAppointment() {
       } else {
         const errorData = await response.json();
         console.error("Failed to send data to Telegram:", errorData);
-        alert("Error sending the request. Please try again.");
+        addToastRef.current?.(
+          "Error sending the request. Please try again.",
+          "error"
+        );
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Server error. Please try again.");
+      addToastRef.current?.("Server error. Please try again.", "error");
     } finally {
       setLoading(false);
     }
@@ -233,6 +249,7 @@ export default function OnlineAppointment() {
       className="flex flex-col md:flex-row max-w-6xl mx-auto bg-white rounded-lg overflow-hidden"
       id="appointment"
     >
+      <Toaster addToast={addToastRef} />
       <div className="w-full md:w-1/2 relative h-[400px]">
         <Image
           src={appointmentImage}
@@ -279,7 +296,7 @@ export default function OnlineAppointment() {
                 onChange={handleChange}
                 error={errors.phone}
                 maxLength={15}
-                pattern="^\+?[1-9]\d{1,14}$|^\+?[1-9]\d{0,2}(?:\s|-)?\(?\d{3}\)?(?:\s|-)?\d{3}(?:\s|-)?\d{4}$"
+                pattern="^\+?[1-9]\d{0,2}(?:\s|-)?\(?\d{3}\)?(?:\s|-)?\d{3}(?:\s|-)?\d{4}$"
               />
               <div className="mb-6 w-full">
                 <label
