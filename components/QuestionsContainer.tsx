@@ -10,7 +10,7 @@ export default function QuestionsContainer() {
     {
       title: "How much do you charge for a service call?",
       content:
-        "Our service call fee is $80, which covers the initial assessment and consultation. Our Service Call fee will be waived with the repair fee. ",
+        "Our service call fee is $80, which covers the initial assessment and consultation. Service call fee will be waived If you decide to do the repair with us. ",
     },
     {
       title: "How can I schedule an appointment?",

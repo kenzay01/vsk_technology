@@ -1,7 +1,33 @@
+"use client";
+
 import Image from "next/image";
 import map from "@/public/map.png";
-import { zipCodes } from "@/utils/zipCodes";
+import { useState, useEffect } from "react";
+
+// import { zipCodes } from "@/utils/zipCodes";
 export default function AboutContainer() {
+  const [zipCodes, setZipCodes] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchZipCodes = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("/api/zipcodes");
+        if (response.ok) {
+          const data = await response.json();
+          setZipCodes(data.zipCodes);
+        } else {
+          console.error("Помилка завантаження зіпкодів");
+        }
+      } catch (err) {
+        console.error(`Помилка сервера ${err}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchZipCodes();
+  }, []);
   return (
     <section className="w-full py-8 px-4 md:px-16 bg-white" id="aboutUs">
       <h1 className="text-4xl font-serif font-bold italic ml-10">About us</h1>
@@ -37,16 +63,20 @@ export default function AboutContainer() {
                 </h2>
               </div>
 
-              <div className="flex justify-center items-center">
-                <div className="grid grid-cols-5 gap-x-6 gap-y-1">
-                  {zipCodes.map((zip, index) => (
-                    <div key={index} className="flex items-center mb-1">
-                      <span className="h-2 w-2 bg-black rounded-full mr-2"></span>
-                      <span>{zip}</span>
-                    </div>
-                  ))}
+              {loading ? (
+                <p>Завантаження...</p>
+              ) : (
+                <div className="flex justify-center items-center">
+                  <div className="grid grid-cols-5 gap-x-6 gap-y-1">
+                    {zipCodes.map((zip, index) => (
+                      <div key={index} className="flex items-center mb-1">
+                        <span className="h-2 w-2 bg-black rounded-full mr-2"></span>
+                        <span>{zip}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
           <div className="w-full h-full overflow-hidden relative">

@@ -7,26 +7,34 @@ export default function Header() {
   const LinksList = [
     {
       name: "Services",
-      href: "#services",
+      href: "/#services",
     },
     {
       name: "Service Area",
-      href: "#serviceArea",
+      href: "/#serviceArea",
     },
     {
       name: "About Us",
-      href: "#aboutUs",
+      href: "/#aboutUs",
     },
     {
       name: "Contact Us",
-      href: "#contactUs",
+      href: "/#contactUs",
     },
   ];
 
   return (
     <nav className="flex justify-center items-center bg-white p-2 gap-12">
       <div className="flex-1/2 flex justify-end items-center w-full max-w-7xl">
-        <Image src="/logo.png" alt="logo" width={140} height={140} />
+        <Image
+          src="/logo.png"
+          alt="logo"
+          width={140}
+          height={140}
+          onClick={() => {
+            window.location.href = "/";
+          }}
+        />
         <ul className="flex gap-6 ml-4">
           {LinksList.map((link) => (
             <li

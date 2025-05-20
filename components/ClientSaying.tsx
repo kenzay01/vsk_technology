@@ -26,9 +26,9 @@ export default function ClientSaying() {
       <div className="max-w-7xl flex flex-col gap-8 p-8 bg-white">
         <div className="flex flex-col gap-6 justify-center items-center">
           <h1 className="text-5xl font-serif">What our clients are saying </h1>
-          <h2 className="text-xl">
+          {/* <h2 className="text-xl">
             More than 100 people are using our services and trust us.
-          </h2>
+          </h2> */}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {containerInfo.map((item, index) => (

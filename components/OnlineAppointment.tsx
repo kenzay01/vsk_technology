@@ -1,17 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import appointmentImage from "@/public/appointment.png";
 import { InputInfo } from "./inputs/InputInfo";
 import { TextareaInfo } from "./inputs/TextareaInfo";
-import { zipCodes } from "@/utils/zipCodes";
+// import { zipCodes } from "@/utils/zipCodes";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 export default function OnlineAppointment() {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+
+  const [zipCodes, setZipCodes] = useState<string[]>([]);
+  useEffect(() => {
+    const fetchZipCodes = async () => {
+      //   setLoading(true);
+      try {
+        const response = await fetch("/api/zipcodes");
+        if (response.ok) {
+          const data = await response.json();
+          setZipCodes(data.zipCodes);
+        } else {
+          console.error("Помилка завантаження зіпкодів");
+        }
+      } catch (err) {
+        console.error(`Помилка сервера ${err}`);
+      } finally {
+        // setLoading(false);
+      }
+    };
+
+    fetchZipCodes();
+  }, []);
   const [formData, setFormData] = useState({
     zipCode: "",
     name: "",
