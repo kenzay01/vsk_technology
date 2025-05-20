@@ -1,33 +1,33 @@
 "use client";
 
 import Image from "next/image";
-import map from "@/public/map.png";
+
 import logo2 from "@/public/logo2.png";
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 
 export default function AboutContainer() {
-  const [zipCodes, setZipCodes] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const fetchZipCodes = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch("/api/zipcodes");
-        if (response.ok) {
-          const data = await response.json();
-          setZipCodes(data.zipCodes);
-        } else {
-          console.error("Error loading zip codes");
-        }
-      } catch (err) {
-        console.error(`Server error ${err}`);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // const [zipCodes, setZipCodes] = useState<string[]>([]);
+  // const [loading, setLoading] = useState(false);
+  // useEffect(() => {
+  //   const fetchZipCodes = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await fetch("/api/zipcodes");
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setZipCodes(data.zipCodes);
+  //       } else {
+  //         console.error("Error loading zip codes");
+  //       }
+  //     } catch (err) {
+  //       console.error(`Server error ${err}`);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchZipCodes();
-  }, []);
+  //   fetchZipCodes();
+  // }, []);
   return (
     <section className="w-full py-6 px-4 md:px-16 bg-white" id="aboutUs">
       <h1 className="text-3xl sm:text-4xl font-serif font-bold italic ml-4 sm:ml-26 text-center md:text-left mb-4">

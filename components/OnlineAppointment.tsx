@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import appointmentImage from "@/public/appointment.png";
+// import appointmentImage from "@/public/appointment.png";
 import { InputInfo } from "./inputs/InputInfo";
 import { TextareaInfo } from "./inputs/TextareaInfo";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -251,7 +251,7 @@ export default function OnlineAppointment() {
 \\- Submission time: ${escapeMarkdown(new Date(currentTime).toLocaleString())}
       `.trim();
 
-      console.log("Sending message to Telegram:", messageText);
+      // console.log("Sending message to Telegram:", messageText);
 
       const response = await fetch("/api/send-telegram", {
         method: "POST",
