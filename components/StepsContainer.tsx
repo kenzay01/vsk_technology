@@ -93,8 +93,11 @@ export default function StepsContainer() {
       body: (
         <p className="text-violet-900 text-sm sm:text-base">
           Once the repair is successfully completed, you can proceed with the
-          payment. Payments can be done via card, check, Zelle and cash. We
-          ensure quality service and customer satisfaction before closing the
+          payment.{" "}
+          <span className="font-bold">
+            Payments can be done via card, check, Zelle and cash.
+          </span>{" "}
+          We ensure quality service and customer satisfaction before closing the
           job.
         </p>
       ),
@@ -104,8 +107,9 @@ export default function StepsContainer() {
   return (
     <section className="flex flex-col justify-center items-center bg-white p-4 sm:p-6 md:p-8 gap-2 w-full mt-26 md:mt-12">
       <div className="w-full max-w-7xl">
-        <h1 className="text-3xl sm:text-3xl md:text-4xl font-serif font-bold italic ml-6 sm:ml-8 md:ml-10 mb-8">
-          Just 4 Simple steps
+        <h1 className="text-3xl sm:text-3xl md:text-4xl font-serif font-bold italic ml-6 sm:ml-8 md:ml-10 mb-8 relative">
+          Just <span className="inline-block relative -top-1">4</span> Simple
+          steps
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-4 sm:gap-y-6 px-4 sm:px-0">
           {stepsItems.map((item, index) => (
