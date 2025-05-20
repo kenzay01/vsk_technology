@@ -308,7 +308,7 @@ export default function OnlineAppointment() {
 
   return (
     <section className="mt-8 sm:mt-12 md:mt-16 bg-white" id="serviceArea">
-      <h1 className="text-3xl sm:text-4xl font-serif font-bold italic ml-4 sm:ml-42 text-center md:text-left">
+      <h1 className="text-3xl sm:text-4xl font-serif font-bold italic ml-4 sm:ml-42 text-center md:text-left pt-4 md:pt-0">
         Service Area
       </h1>
       <div
@@ -316,7 +316,7 @@ export default function OnlineAppointment() {
         id="appointment"
       >
         <Toaster addToast={addToastRef} />
-        <div className="w-full md:w-1/2 p-8">
+        <div className="w-full md:w-1/2 p-4 md:p-8">
           <h2 className="text-4xl md:text-5xl mb-8 font-serif text-center md:text-left">
             Online appointment
           </h2>

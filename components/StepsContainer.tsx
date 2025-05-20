@@ -2,8 +2,47 @@
 
 import StepsItem from "./StepsItem";
 import { BiSolidPhoneCall } from "react-icons/bi";
-
+import { useEffect } from "react";
 export default function StepsContainer() {
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    e.preventDefault();
+    const isMobile = window.innerWidth < 768; // md breakpoint
+    const headerHeight = isMobile ? 120 : 0;
+
+    // Handle both same-page anchor links and full page navigation
+    if (href.startsWith("/#")) {
+      const sectionId = href.split("#")[1];
+      const targetElement = document.getElementById(sectionId);
+      if (targetElement) {
+        const offsetTop =
+          targetElement.getBoundingClientRect().top +
+          window.pageYOffset -
+          headerHeight;
+        window.scrollTo({
+          top: offsetTop,
+          behavior: "smooth",
+        });
+      } else {
+        // Fallback to default navigation if section not found
+        window.location.href = href;
+      }
+    } else {
+      window.location.href = href;
+    }
+  };
+
+  // Apply smooth scroll globally
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.textContent = "html { scroll-behavior: smooth; }";
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
   const stepsItems = [
     {
       subtitle: "",
@@ -21,7 +60,8 @@ export default function StepsContainer() {
           </h2>
           <div className="mt-4 md:mt-auto w-full text-center mb-2  md:mb-2">
             <a
-              href="#appointment"
+              href="#serviceArea"
+              onClick={(e) => handleLinkClick(e, "/#serviceArea")}
               className="py-3 sm:py-4 px-4 w-full bg-amber-500 text-white hover:bg-amber-600 transition duration-300 font-medium rounded-md mt-4 cursor-pointer text-sm sm:text-base"
             >
               Book an Appointment
