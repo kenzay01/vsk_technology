@@ -27,7 +27,7 @@ export default function Header() {
           alt="logo"
           width={140}
           height={140}
-          className="cursor-pointer w-32 h-32 sm:w-24 sm:h-24 md:w-46 md:h-46"
+          className="cursor-pointer w-26 h-26 sm:w-24 sm:h-24 md:w-46 md:h-46"
           onClick={() => {
             window.location.href = "/";
           }}
@@ -69,7 +69,7 @@ export default function Header() {
       </div>
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200 py-4 px-4 w-full absolute left-0 top-[72px] z-40 shadow-md transition-all duration-300">
+        <div className="md:hidden bg-white border-t border-gray-200 py-4 px-4 w-full absolute left-0 top-[120px] z-40 shadow-md transition-all duration-300">
           <ul className="flex flex-col gap-3">
             {LinksList.map((link) => (
               <li

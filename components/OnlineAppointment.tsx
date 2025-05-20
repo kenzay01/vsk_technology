@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-// import appointmentImage from "@/public/appointment.png";
 import { InputInfo } from "./inputs/InputInfo";
 import { TextareaInfo } from "./inputs/TextareaInfo";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -251,8 +250,6 @@ export default function OnlineAppointment() {
 \\- Submission time: ${escapeMarkdown(new Date(currentTime).toLocaleString())}
       `.trim();
 
-      // console.log("Sending message to Telegram:", messageText);
-
       const response = await fetch("/api/send-telegram", {
         method: "POST",
         headers: {
@@ -315,12 +312,14 @@ export default function OnlineAppointment() {
         Service Area
       </h1>
       <div
-        className="flex flex-col md:flex-row max-w-6xl mx-auto bg-white rounded-lg overflow-hidden gap-8"
+        className="flex flex-col md:flex-row max-w-6xl mx-auto bg-white rounded-lg overflow-hidden md:gap-8"
         id="appointment"
       >
         <Toaster addToast={addToastRef} />
         <div className="w-full md:w-1/2 p-8">
-          <h2 className="text-5xl mb-8 font-serif">Online appointment</h2>
+          <h2 className="text-4xl md:text-5xl mb-8 font-serif text-center md:text-left">
+            Online appointment
+          </h2>
           <div>
             <InputInfo
               label="ZIP Code"
@@ -468,15 +467,16 @@ export default function OnlineAppointment() {
             )}
           </div>
         </div>
-        <div className="w-full md:w-1/2 relative h-[400px] mt-8">
+        <div className="w-full md:w-1/2 relative h-64 sm:h-80 md:h-[400px] mt-8 max-w-sm md:max-w-none mx-auto md:mx-0">
           <Image
             src={map}
-            alt="map"
+            alt="Service area map for VSK Technology LLC"
             fill
-            className="object-contain w-full h-full rounded-xl"
+            className="object-contain rounded-xl"
             quality={85}
             priority
             placeholder="blur"
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
       </div>
