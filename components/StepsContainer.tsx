@@ -101,7 +101,7 @@ export default function StepsContainer() {
   ];
 
   return (
-    <section className="flex flex-col justify-center items-center bg-white p-4 sm:p-6 md:p-8 gap-2 w-full mt-16 md:mt-0">
+    <section className="flex flex-col justify-center items-center bg-white p-4 sm:p-6 md:p-8 gap-2 w-full mt-20 md:mt-0">
       <div className="w-full max-w-7xl">
         <h1 className="text-3xl sm:text-3xl md:text-4xl font-serif font-bold italic ml-6 sm:ml-8 md:ml-10 mb-4">
           Just 4 Simple steps
