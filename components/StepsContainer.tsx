@@ -93,8 +93,9 @@ export default function StepsContainer() {
       body: (
         <p className="text-violet-900 text-sm sm:text-base">
           Once the repair is successfully completed, you can proceed with the
-          payment. We ensure quality service and customer satisfaction before
-          closing the job.
+          payment. Payments can be done via card, check, Zelle and cash. We
+          ensure quality service and customer satisfaction before closing the
+          job.
         </p>
       ),
     },
