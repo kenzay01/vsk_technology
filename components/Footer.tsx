@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { InputInfo } from "./inputs/InputInfo";
+import { escapeMarkdown } from "@/funcs/escapeMarkdown";
 
 export default function Footer() {
   const [loading, setLoading] = useState(false);
@@ -24,11 +25,11 @@ export default function Footer() {
       phone:
         isValid || value === ""
           ? ""
-          : "Please enter a valid phone number (e.g., +12025550123 or (202) 555-0123)",
+          : "Please enter a valid phone number (e.g., +12025550123)",
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!formData.phone || errors.phone) {
       setErrors((prev) => ({
         ...prev,
@@ -40,10 +41,42 @@ export default function Footer() {
     }
 
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const currentTime = new Date().toISOString();
+      const messageText = `
+🔔 *New call request*
+
+📌 *Request details:*
+\\- Phone: ${escapeMarkdown(formData.phone)}
+\\- Submission time: ${escapeMarkdown(new Date(currentTime).toLocaleString())}
+      `.trim();
+
+      console.log("Sending message to Telegram:", messageText);
+
+      const response = await fetch("/api/send-telegram", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: messageText,
+        }),
+      });
+
+      if (response.ok) {
+        alert("Thank you for your request! We will contact you soon.");
+        setFormData({ phone: "" });
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to send data to Telegram:", errorData);
+        alert("Error sending the request. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Server error. Please try again.");
+    } finally {
       setLoading(false);
-      alert("Дякуємо за заявку! Ми скоро зв'яжемося з вами.");
-    }, 1000);
+    }
   };
 
   return (

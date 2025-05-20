@@ -6,37 +6,7 @@ import appointmentImage from "@/public/appointment.png";
 import { InputInfo } from "./inputs/InputInfo";
 import { TextareaInfo } from "./inputs/TextareaInfo";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-
-function escapeMarkdown(text: string): string {
-  const specialChars = [
-    "_",
-    "*",
-    "[",
-    "]",
-    "(",
-    ")",
-    "~",
-    "`",
-    ">",
-    "#",
-    "+",
-    "-",
-    "=",
-    "|",
-    "{",
-    "}",
-    ".",
-    "!",
-  ];
-
-  let escapedText = text;
-  specialChars.forEach((char) => {
-    const regex = new RegExp("\\" + char, "g");
-    escapedText = escapedText.replace(regex, "\\" + char);
-  });
-
-  return escapedText;
-}
+import { escapeMarkdown } from "@/funcs/escapeMarkdown";
 
 export default function OnlineAppointment() {
   const [loading, setLoading] = useState(false);
@@ -52,16 +22,16 @@ export default function OnlineAppointment() {
           const data = await response.json();
           setZipCodes(data.zipCodes);
         } else {
-          console.error("Помилка завантаження зіпкодів");
+          console.error("Error loading zip codes");
         }
       } catch (err) {
-        console.error(`Помилка сервера ${err}`);
-      } finally {
+        console.error(`Server error ${err}`);
       }
     };
 
     fetchZipCodes();
   }, []);
+
   const [formData, setFormData] = useState({
     zipCode: "",
     name: "",
@@ -117,7 +87,7 @@ export default function OnlineAppointment() {
         phone:
           isValid || value === ""
             ? ""
-            : "Please enter a valid phone number (e.g., +12025550123 or (202) 555-0123)",
+            : "Please enter a valid phone number (e.g., +12025550123)",
       }));
     } else if (name === "name" && isFormVisible) {
       setErrors((prev) => ({
@@ -146,7 +116,6 @@ export default function OnlineAppointment() {
       return { ...prev, applianceTypes: updatedAppliances };
     });
 
-    // Validate appliance types immediately after change
     setErrors((prev) => ({
       ...prev,
       applianceTypes:
@@ -156,7 +125,7 @@ export default function OnlineAppointment() {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {
       zipCode: !formData.zipCode
         ? "ZIP code is required"
@@ -169,7 +138,7 @@ export default function OnlineAppointment() {
           ? "Phone is required"
           : errors.phone || validatePhone(formData.phone)
           ? ""
-          : "Please enter a valid phone number (e.g., +12025550123 or (202) 555-0123)",
+          : "Please enter a valid phone number (e.g., +12025550123)",
       applianceTypes:
         formData.applianceTypes.length === 0 && isFormVisible
           ? "At least one appliance type must be selected"
@@ -181,7 +150,6 @@ export default function OnlineAppointment() {
 
     setErrors(newErrors);
 
-    // Check if there are any errors
     if (
       !isFormVisible ||
       newErrors.zipCode ||
@@ -195,14 +163,61 @@ export default function OnlineAppointment() {
     }
 
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const currentTime = new Date().toISOString();
+      const formattedDateTime = new Date(formData.dateTime).toLocaleString();
+
+      const messageText = `
+🔔 *New repair request*
+
+📌 *Request details:*
+\\- ZIP code: ${escapeMarkdown(formData.zipCode)}
+\\- Appliance types: ${escapeMarkdown(
+        formData.applianceTypes.join(", ") || "None"
+      )}
+\\- Date and time: ${escapeMarkdown(formattedDateTime)}
+\\- Message: ${escapeMarkdown(formData.text)}
+👤 *User information:*
+\\- Name: ${escapeMarkdown(formData.name)}
+\\- Phone: ${escapeMarkdown(formData.phone)}
+\\- Submission time: ${escapeMarkdown(new Date(currentTime).toLocaleString())}
+      `.trim();
+
+      console.log("Sending message to Telegram:", messageText);
+
+      const response = await fetch("/api/send-telegram", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: messageText,
+        }),
+      });
+
+      if (response.ok) {
+        alert("Thank you for your request! We will contact you soon.");
+        setFormData({
+          zipCode: "",
+          name: "",
+          phone: "",
+          applianceTypes: [],
+          dateTime: "",
+          text: "",
+        });
+        setIsFormVisible(false);
+        setIsOpen(false);
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to send data to Telegram:", errorData);
+        alert("Error sending the request. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Server error. Please try again.");
+    } finally {
       setLoading(false);
-      alert(
-        `Дякуємо за заявку! Ми скоро зв'яжемося з вами.\nSelected appliances: ${
-          formData.applianceTypes.join(", ") || "None"
-        }`
-      );
-    }, 1000);
+    }
   };
 
   const applianceOptions = [
@@ -258,13 +273,13 @@ export default function OnlineAppointment() {
                 label="Phone"
                 type="tel"
                 required={true}
-                placeholder="Enter your phone number (e.g., +12025550123)"
+                placeholder="Enter your phone number"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
                 error={errors.phone}
                 maxLength={15}
-                pattern="^\+?[1-9]\d{0,2}(?:\s|-)?\(?\d{3}\)?(?:\s|-)?\d{3}(?:\s|-)?\d{4}$"
+                pattern="^\+?[1-9]\d{1,14}$|^\+?[1-9]\d{0,2}(?:\s|-)?\(?\d{3}\)?(?:\s|-)?\d{3}(?:\s|-)?\d{4}$"
               />
               <div className="mb-6 w-full">
                 <label
@@ -305,7 +320,7 @@ export default function OnlineAppointment() {
               </div>
               <InputInfo
                 label="Date and time"
-                type="date"
+                type="datetime-local"
                 name="dateTime"
                 value={formData.dateTime}
                 onChange={handleChange}
