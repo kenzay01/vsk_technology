@@ -47,16 +47,21 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-white py-8 px-4" id="contactUs">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+    <footer
+      className="w-full bg-white py-6 sm:py-6 md:py-8 px-4 sm:px-6 md:px-4"
+      id="contactUs"
+    >
+      <div className="max-w-6xl mx-auto flex flex-col sm:flex-col md:flex-row justify-between items-center md:items-start gap-6 sm:gap-8 md:gap-12">
         <div className="flex-1">
-          <h1 className="text-2xl font-serif font-bold mb-4">Request a call</h1>
-          <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+          <h1 className="text-xl sm:text-xl md:text-2xl font-serif font-bold mb-3 sm:mb-4">
+            Request a call
+          </h1>
+          <div className="flex flex-row gap-3 sm:gap-4 justify-center items-center">
             <InputInfo
               label="Phone"
               type="tel"
               required={true}
-              placeholder="Enter your phone number (e.g., +12025550123)"
+              placeholder="Enter your phone number"
               value={formData.phone}
               onChange={handleChange}
               error={errors.phone}
@@ -65,7 +70,7 @@ export default function Footer() {
             />
             <div
               onClick={!loading ? handleSubmit : undefined}
-              className={`bg-amber-500 hover:bg-amber-600 text-white py-2 px-4 rounded-md font-medium text-lg cursor-pointer transition-colors ${
+              className={`bg-amber-500 hover:bg-amber-600 text-white py-2 px-3 sm:px-4 rounded-md font-medium text-base sm:text-lg cursor-pointer transition-colors ${
                 loading ? "opacity-70" : ""
               }`}
             >
@@ -74,8 +79,10 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex-1">
-          <h1 className="text-2xl font-serif font-bold mb-4">Contacts</h1>
-          <div className="text-gray-700 text-sm space-y-2">
+          <h1 className="text-xl sm:text-xl md:text-2xl font-serif font-bold mb-3 sm:mb-4">
+            Contacts
+          </h1>
+          <div className="text-gray-700 text-xs sm:text-sm space-y-1 sm:space-y-2">
             <div>
               2252 N INDIAN CANYON DR <br /> PALM SPRINGS, CA{" "}
               <span className="underline">92262-3065</span> <br /> United States

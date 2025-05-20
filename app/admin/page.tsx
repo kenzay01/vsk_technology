@@ -27,23 +27,25 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8">
+      <div className="max-w-md w-full space-y-6 sm:space-y-7 md:space-y-8 bg-white p-6 sm:p-7 md:p-8 rounded-lg shadow-md">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900">Admin Panel</h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <h2 className="text-2xl sm:text-2xl md:text-3xl font-extrabold text-gray-900">
+            Admin Panel
+          </h2>
+          <p className="mt-1 sm:mt-2 text-xs sm:text-sm md:text-sm text-gray-600">
             Enter your username and password to log in
           </p>
         </div>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded">
             {error}
           </div>
         )}
 
-        <div className="mt-8 space-y-6">
-          <div className="rounded-md shadow-sm space-y-4">
+        <div className="mt-6 sm:mt-7 md:mt-8 space-y-4 sm:space-y-5 md:space-y-6">
+          <div className="rounded-md shadow-sm space-y-3 sm:space-y-4">
             <div>
               <label htmlFor="username" className="sr-only">
                 Username
@@ -54,7 +56,7 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
                 type="text"
                 autoComplete="username"
                 required
-                className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded relative block w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xs sm:text-sm md:text-sm"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -70,7 +72,7 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded relative block w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-xs sm:text-sm md:text-sm"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -83,7 +85,7 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
               type="button"
               disabled={loading}
               onClick={handleLogin}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+              className="group relative w-full flex justify-center py-1.5 sm:py-2 px-3 sm:px-4 border border-transparent text-xs sm:text-sm md:text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
             >
               {loading ? "Logging in..." : "Log in"}
             </button>
@@ -199,15 +201,17 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
   return (
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center h-auto sm:h-16 py-3 sm:py-0">
             <div className="flex items-center">
-              <h1 className="text-xl font-semibold">Admin Panel</h1>
+              <h1 className="text-lg sm:text-xl md:text-xl font-semibold">
+                Admin Panel
+              </h1>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center mt-2 sm:mt-0">
               <button
                 onClick={onLogout}
-                className="ml-4 px-4 py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 cursor-pointer"
+                className="ml-0 sm:ml-4 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm md:text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 cursor-pointer"
               >
                 Log out
               </button>
@@ -216,60 +220,62 @@ const AdminDashboard = ({ onLogout }: { onLogout: () => void }) => {
         </div>
       </nav>
 
-      <div className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold mb-6">Manage Zip Codes</h2>
+      <div className="py-6 sm:py-8 md:py-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        <h2 className="text-xl sm:text-2xl md:text-2xl font-bold mb-4 sm:mb-6">
+          Manage Zip Codes
+        </h2>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded mb-3 sm:mb-4">
             {error}
           </div>
         )}
 
-        <div className="mb-6">
-          <div className="flex space-x-4">
+        <div className="mb-4 sm:mb-6">
+          <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
             <input
               type="text"
               value={newZipCode}
               onChange={(e) => setNewZipCode(e.target.value)}
               placeholder="Enter new zip code (5 digits)"
               maxLength={5}
-              className="rounded block w-64 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="rounded block w-full sm:w-64 px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs sm:text-sm md:text-sm"
             />
             <button
               onClick={addZipCode}
               disabled={loading}
-              className="px-4 py-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+              className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm md:text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
             >
               {loading ? "Adding..." : "Add Zip Code"}
             </button>
           </div>
         </div>
 
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search zip code..."
-            className="rounded block w-full max-w-md px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="rounded block w-full sm:max-w-md px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs sm:text-sm md:text-sm"
           />
         </div>
 
-        <div className="bg-white shadow overflow-hidden sm:rounded-md p-4">
-          <div className="flex flex-wrap gap-2">
+        <div className="bg-white shadow overflow-hidden sm:rounded-md p-3 sm:p-4">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {filteredZipCodes.map((zipCode) => (
               <div
                 key={zipCode}
-                className="flex items-center bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-900"
+                className="flex items-center bg-gray-100 rounded-full px-2 sm:px-3 py-0.5 sm:py-1 text-xs sm:text-sm md:text-sm font-medium text-gray-900"
               >
                 <span>{zipCode}</span>
                 <button
                   onClick={() => removeZipCode(zipCode)}
                   disabled={loading}
-                  className="ml-2 text-red-600 hover:text-red-800 disabled:opacity-50 focus:outline-none cursor-pointer"
+                  className="ml-1 sm:ml-2 text-red-600 hover:text-red-800 disabled:opacity-50 focus:outline-none cursor-pointer"
                 >
                   <svg
-                    className="w-4 h-4"
+                    className="w-3 sm:w-4 h-3 sm:h-4"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

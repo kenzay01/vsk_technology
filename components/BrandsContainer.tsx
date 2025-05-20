@@ -47,7 +47,24 @@ export default function BrandsContainer() {
     "zline",
   ];
 
-  const visibleCount = 3;
+  const getVisibleCount = () => {
+    return typeof window !== "undefined" && window.innerWidth < 768 ? 2 : 3;
+  };
+
+  const [visibleCount, setVisibleCount] = useState(getVisibleCount());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setVisibleCount(getVisibleCount());
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const getExtendedBrands = () => {
     return [...brands, ...brands, ...brands];
@@ -75,6 +92,7 @@ export default function BrandsContainer() {
       goToNext();
     }, 4000);
   };
+
   const goToPrevious = () => {
     if (isTransitioning) return;
 
@@ -122,10 +140,11 @@ export default function BrandsContainer() {
 
     return result;
   };
+
   return (
-    <div className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-5xl font-semibold text-center italic mb-12 font-serif">
+    <div className="py-8 sm:py-12 md:py-16 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-center italic mb-8 sm:mb-10 md:mb-12 font-serif">
           We Repair all brands
         </h2>
 
@@ -133,19 +152,19 @@ export default function BrandsContainer() {
           <div className="flex items-center justify-center">
             <button
               onClick={goToPrevious}
-              className="absolute left-0 z-10 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 focus:outline-none cursor-pointer"
+              className="absolute left-2 sm:left-4 md:left-0 z-10 bg-white rounded-full p-1.5 sm:p-2 shadow-md hover:bg-gray-100 focus:outline-none cursor-pointer"
               aria-label="Previous brand"
               disabled={isTransitioning}
             >
-              <IoIosArrowBack className="text-2xl pr-0.5" />
+              <IoIosArrowBack className="text-xl sm:text-2xl md:pr-0.5" />
             </button>
 
             <div className="w-full overflow-hidden">
-              <div className="flex justify-center items-center space-x-12 md:space-x-36 py-4 transition-transform duration-500 ease-in-out">
+              <div className="flex justify-center items-center space-x-8 sm:space-x-12 md:space-x-36 py-4 transition-transform duration-500 ease-in-out">
                 {getVisibleBrands().map((brand, index) => (
                   <div
                     key={`${brand}-${index}`}
-                    className={`flex items-center justify-center w-32 h-24 md:w-36 md:h-28 transition-all duration-500 ${
+                    className={`flex items-center justify-center w-24 h-16 sm:w-28 sm:h-20 md:w-36 md:h-28 transition-all duration-500 ${
                       isTransitioning ? "scale-100" : "scale-100"
                     }`}
                     style={{
@@ -160,7 +179,7 @@ export default function BrandsContainer() {
                         src={`/brands/${brand}.png`}
                         alt={`${brand} logo`}
                         fill
-                        sizes="(max-width: 768px) 100vw, 33vw"
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                         style={{
                           objectFit: "contain",
                         }}
@@ -178,11 +197,11 @@ export default function BrandsContainer() {
 
             <button
               onClick={goToNext}
-              className="absolute right-0 z-10 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 focus:outline-none cursor-pointer"
+              className="absolute right-2 sm:right-4 md:right-0 z-10 bg-white rounded-full p-1.5 sm:p-2 shadow-md hover:bg-gray-100 focus:outline-none cursor-pointer"
               aria-label="Next brand"
               disabled={isTransitioning}
             >
-              <IoIosArrowForward className="text-2xl pl-0.5" />
+              <IoIosArrowForward className="text-xl sm:text-2xl md:pl-0.5" />
             </button>
           </div>
         </div>

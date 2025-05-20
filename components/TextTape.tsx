@@ -57,13 +57,16 @@ export default function TextTape({ type }: TextTapeProps) {
   const formattedText = textComponents.join(" • ");
   if (type === "text") {
     return (
-      <section className="overflow-hidden w-full bg-violet-900 p-4">
+      <section className="overflow-hidden w-full bg-violet-900 p-2 md:p-4">
         <div className="whitespace-nowrap flex">
           <div className="animate-marquee flex">
             {Array(10)
               .fill(0)
               .map((_, index) => (
-                <div key={index} className="mx-1 text-4xl text-white font-bold">
+                <div
+                  key={index}
+                  className="mx-1 text-2xl md:text-4xl text-white font-bold"
+                >
                   {formattedText}
                 </div>
               ))}
@@ -73,7 +76,7 @@ export default function TextTape({ type }: TextTapeProps) {
     );
   } else {
     return (
-      <section className="overflow-hidden w-full p-4">
+      <section className="overflow-hidden w-full p-2 md:p-4">
         <div className="whitespace-nowrap flex">
           <div className="animate-marquee-logo flex">
             {Array(80)
@@ -81,7 +84,7 @@ export default function TextTape({ type }: TextTapeProps) {
               .map((_, index) => (
                 <div key={index} className="flex items-center mx-12">
                   <Image src={logo} alt="logo" width={40} height={40} />
-                  <div className="mx-1 text-4xl text-amber-500 font-bold">
+                  <div className="mx-1 text-2xl md:text-4xl text-amber-500 font-bold">
                     VSK Technology
                   </div>
                 </div>

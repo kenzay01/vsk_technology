@@ -5,8 +5,38 @@ import Image from "next/image";
 import appointmentImage from "@/public/appointment.png";
 import { InputInfo } from "./inputs/InputInfo";
 import { TextareaInfo } from "./inputs/TextareaInfo";
-// import { zipCodes } from "@/utils/zipCodes";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+
+function escapeMarkdown(text: string): string {
+  const specialChars = [
+    "_",
+    "*",
+    "[",
+    "]",
+    "(",
+    ")",
+    "~",
+    "`",
+    ">",
+    "#",
+    "+",
+    "-",
+    "=",
+    "|",
+    "{",
+    "}",
+    ".",
+    "!",
+  ];
+
+  let escapedText = text;
+  specialChars.forEach((char) => {
+    const regex = new RegExp("\\" + char, "g");
+    escapedText = escapedText.replace(regex, "\\" + char);
+  });
+
+  return escapedText;
+}
 
 export default function OnlineAppointment() {
   const [loading, setLoading] = useState(false);
@@ -16,7 +46,6 @@ export default function OnlineAppointment() {
   const [zipCodes, setZipCodes] = useState<string[]>([]);
   useEffect(() => {
     const fetchZipCodes = async () => {
-      //   setLoading(true);
       try {
         const response = await fetch("/api/zipcodes");
         if (response.ok) {
@@ -28,7 +57,6 @@ export default function OnlineAppointment() {
       } catch (err) {
         console.error(`Помилка сервера ${err}`);
       } finally {
-        // setLoading(false);
       }
     };
 
@@ -182,6 +210,7 @@ export default function OnlineAppointment() {
     "Washer/Dryer Repair",
     "Range/Stove & Cooktop Repair",
     "Dishwasher Repair",
+    "Microwave Repair",
   ];
 
   return (
