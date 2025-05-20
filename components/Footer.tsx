@@ -1,4 +1,3 @@
-// Footer.tsx - Виправлений код
 "use client";
 
 import { useState, useRef } from "react";
@@ -11,14 +10,12 @@ export default function Footer() {
   const [formData, setFormData] = useState({ phone: "" });
   const [errors, setErrors] = useState({ phone: "" });
 
-  // Виправлена типізація для addToastRef
   const addToastRef = useRef<
     (message: string, type: "success" | "error") => void
   >(() => {});
 
   const validatePhone = (phone: string) => {
-    const phoneRegex =
-      /^\+?[1-9]\d{0,2}(?:\s|-)?\(?\d{3}\)?(?:\s|-)?\d{3}(?:\s|-)?\d{4}$/;
+    const phoneRegex = /^(?:\+?1\s?)?(?:\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4}$/;
     return phoneRegex.test(phone.trim()) || phone === "";
   };
 
@@ -29,10 +26,7 @@ export default function Footer() {
     const isValid = validatePhone(value);
     setErrors((prev) => ({
       ...prev,
-      phone:
-        isValid || value === ""
-          ? ""
-          : "Please enter a valid phone number (e.g., +12025550123)",
+      phone: isValid || value === "" ? "" : "Please enter a valid phone number",
     }));
   };
 
@@ -42,7 +36,7 @@ export default function Footer() {
         ...prev,
         phone: !formData.phone
           ? "Phone is required"
-          : "Please enter a valid phone number (e.g., +12025550123 or (202) 555-0123)",
+          : "Please enter a valid phone number",
       }));
       addToastRef.current?.("Please fix the phone number error", "error");
       return;
@@ -50,16 +44,21 @@ export default function Footer() {
 
     setLoading(true);
     try {
+      // Normalize phone number for submission
+      let normalizedPhone = formData.phone.replace(/\D/g, "");
+      if (!normalizedPhone.startsWith("1")) {
+        normalizedPhone = `1${normalizedPhone}`;
+      }
+      normalizedPhone = `+${normalizedPhone}`;
+
       const currentTime = new Date().toISOString();
       const messageText = `
 🔔 *New call request*
 
 📌 *Request details:*
-\\- Phone: ${escapeMarkdown(formData.phone)}
+\\- Phone: ${escapeMarkdown(normalizedPhone)}
 \\- Submission time: ${escapeMarkdown(new Date(currentTime).toLocaleString())}
       `.trim();
-
-      // console.log("Sending message to Telegram:", messageText);
 
       const response = await fetch("/api/send-telegram", {
         method: "POST",
@@ -99,7 +98,7 @@ export default function Footer() {
       id="contactUs"
     >
       <Toaster addToast={addToastRef} />
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-col md:flex-row justify-between items-center md:items-start gap-6 sm:gap-8 md:gap-12">
+      <div className="max-w-6xl mx-auto flex flex-col sm:flex-col md:flex-row justify-between items-center md:items-start gap-16 sm:gap-8 md:gap-12">
         <div className="flex-1">
           <h1 className="text-xl sm:text-xl md:text-2xl font-serif font-bold mb-3 sm:mb-4">
             Request a call
@@ -114,7 +113,7 @@ export default function Footer() {
               onChange={handleChange}
               error={errors.phone}
               maxLength={15}
-              pattern="^\+?[1-9]\d{0,2}(?:\s|-)?\(?\d{3}\)?(?:\s|-)?\d{3}(?:\s|-)?\d{4}$"
+              pattern="^(?:\+?1\s?)?(?:\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4}$"
             />
             <div
               onClick={!loading ? handleSubmit : undefined}
@@ -126,7 +125,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 md:ml-8">
           <h1 className="text-xl sm:text-xl md:text-2xl font-serif font-bold mb-3 sm:mb-4">
             Contacts
           </h1>

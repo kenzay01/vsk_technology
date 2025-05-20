@@ -63,8 +63,7 @@ export default function OnlineAppointment() {
   });
 
   const validatePhone = (phone: string) => {
-    const phoneRegex =
-      /^\+?[1-9]\d{0,2}(?:\s|-)?\(?\d{3}\)?(?:\s|-)?\d{3}(?:\s|-)?\d{4}$/;
+    const phoneRegex = /^(?:\+?1\s?)?(?:\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4}$/;
     return phoneRegex.test(phone.trim()) || phone === "";
   };
 
@@ -118,9 +117,7 @@ export default function OnlineAppointment() {
       setErrors((prev) => ({
         ...prev,
         phone:
-          isValid || value === ""
-            ? ""
-            : "Please enter a valid phone number (e.g., +12025550123)",
+          isValid || value === "" ? "" : "Please enter a valid phone number",
       }));
     } else if (name === "name" && isFormVisible) {
       setErrors((prev) => ({
@@ -185,7 +182,7 @@ export default function OnlineAppointment() {
           ? "Phone is required"
           : errors.phone || validatePhone(formData.phone)
           ? ""
-          : "Please enter a valid phone number (e.g., +12025550123)",
+          : "Please enter a valid phone number",
       streetAddress:
         !formData.streetAddress && isFormVisible
           ? "Street address is required"
@@ -228,6 +225,13 @@ export default function OnlineAppointment() {
         formData.date
       ).toLocaleDateString()} ${formData.timeSlot}`;
 
+      // Normalize phone number for submission
+      let normalizedPhone = formData.phone.replace(/\D/g, "");
+      if (!normalizedPhone.startsWith("1")) {
+        normalizedPhone = `1${normalizedPhone}`;
+      }
+      normalizedPhone = `+${normalizedPhone}`;
+
       const messageText = `
 🔔 *New repair request*
 
@@ -246,7 +250,7 @@ export default function OnlineAppointment() {
 \\- Message: ${escapeMarkdown(formData.text)}
 👤 *User information:*
 \\- Name: ${escapeMarkdown(formData.name)}
-\\- Phone: ${escapeMarkdown(formData.phone)}
+\\- Phone: ${escapeMarkdown(normalizedPhone)}
 \\- Submission time: ${escapeMarkdown(new Date(currentTime).toLocaleString())}
       `.trim();
 
@@ -353,7 +357,7 @@ export default function OnlineAppointment() {
                   onChange={handleChange}
                   error={errors.phone}
                   maxLength={15}
-                  pattern="^\+?[1-9]\d{0,2}(?:\s|-)?\(?\d{3}\)?(?:\s|-)?\d{3}(?:\s|-)?\d{4}$"
+                  pattern="^(?:\+?1\s?)?(?:\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4}$"
                 />
                 <InputInfo
                   label="Street Address"

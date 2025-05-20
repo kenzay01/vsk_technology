@@ -3,11 +3,8 @@
 export default function ClientSaying() {
   const containerInfo = [
     {
-      paragraph: `“I had a great experience with VSK Technology! The technician was
-            prompt, knowledgeable, and fixed my refrigerator in no time. I
-            highly recommend their services to anyone in need of appliance
-            repairs.”`,
-      name: "John D.",
+      paragraph: `“They responded right away and scheduled the appointment. I would higly recommend. Very professional and polite.”`,
+      name: "Alexandra D.",
     },
     {
       paragraph: `“VSK Technology saved me! My dryer was not working, and they were
@@ -16,11 +13,8 @@ export default function ClientSaying() {
       name: "Sarah S.",
     },
     {
-      paragraph: `“I was impressed by how quickly VSK Technology handled my oven
-            repair. The technician was professional and ensured everything was
-            working perfectly before leaving. I will definitely use their
-            services again!”`,
-      name: "Jane A.",
+      paragraph: `“The technician was very professional and kind. Thanks to Vadym, my fridge is now working perfectly. I will work with him on other appliances in the future if needed.”`,
+      name: "Mary S.",
     },
   ];
 
