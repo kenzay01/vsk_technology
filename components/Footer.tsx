@@ -101,7 +101,7 @@ export default function Footer() {
     >
       <Toaster addToast={addToastRef} />
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-col md:flex-row justify-between items-center md:items-start gap-16 sm:gap-8 md:gap-12">
-        <div className="flex-1">
+        <div className="flex-1" id="requestCall">
           <h2 className="text-xl sm:text-xl md:text-2xl font-serif font-bold mb-3 sm:mb-4">
             Request a call
           </h2>

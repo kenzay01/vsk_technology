@@ -85,11 +85,12 @@ export default function ServiceItem({
 
       <div className="flex flex-col gap-3">
         <a
-          href="#contactUs"
-          onClick={(e) => handleLinkClick(e, "/#contactUs")}
+          href="#requestCall"
+          onClick={(e) => handleLinkClick(e, "/#requestCall")}
           className="py-2.5 px-4 bg-amber-500 hover:bg-amber-600 rounded-full text-white font-medium text-md cursor-pointer transition duration-200 ease shadow-md text-center"
+          aria-label="Request a call from our team"
         >
-          Call Us
+          Request a call
         </a>
         <a
           href="#serviceArea"
