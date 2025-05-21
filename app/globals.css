@@ -1,9 +1,57 @@
 @import "tailwindcss";
 
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
+  --primary-color: #f59e0b; /* amber-500 */
+  --primary-hover: #d97706; /* amber-600 */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   @apply bg-white text-gray-800 mx-auto;
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  min-height: 100vh;
 }
-html {
-  scroll-behavior: smooth;
+
+/* Accessibility improvements */
+*:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Improved mobile tap targets */
+a, button {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Hide elements with aria-hidden */
+[aria-hidden="true"] {
+  display: none;
+}
+
+/* For screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

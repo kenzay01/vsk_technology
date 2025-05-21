@@ -96,13 +96,15 @@ export default function Footer() {
     <footer
       className="w-full bg-white py-6 sm:py-6 md:py-8 px-4 sm:px-6 md:px-4"
       id="contactUs"
+      itemScope
+      itemType="https://schema.org/LocalBusiness"
     >
       <Toaster addToast={addToastRef} />
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-col md:flex-row justify-between items-center md:items-start gap-16 sm:gap-8 md:gap-12">
         <div className="flex-1">
-          <h1 className="text-xl sm:text-xl md:text-2xl font-serif font-bold mb-3 sm:mb-4">
+          <h2 className="text-xl sm:text-xl md:text-2xl font-serif font-bold mb-3 sm:mb-4">
             Request a call
-          </h1>
+          </h2>
           <div className="flex flex-row gap-3 sm:gap-4 justify-center items-center">
             <InputInfo
               label="Phone"
@@ -114,30 +116,42 @@ export default function Footer() {
               error={errors.phone}
               maxLength={15}
               pattern="^(?:\+?1\s?)?(?:\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4}$"
+              aria-label="Phone number"
             />
-            <div
+            <button
               onClick={!loading ? handleSubmit : undefined}
               className={`bg-amber-500 hover:bg-amber-600 text-white py-2 px-3 sm:px-4 rounded-md font-medium text-base sm:text-lg cursor-pointer transition-colors ${
                 loading ? "opacity-70" : ""
               }`}
+              disabled={loading}
+              aria-label="Submit call request"
             >
               {loading ? "Processing..." : "Submit"}
-            </div>
+            </button>
           </div>
         </div>
         <div className="flex-1 md:ml-8">
-          <h1 className="text-xl sm:text-xl md:text-2xl font-serif font-bold mb-3 sm:mb-4">
+          <h2 className="text-xl sm:text-xl md:text-2xl font-serif font-bold mb-3 sm:mb-4">
             Contacts
-          </h1>
+          </h2>
           <div className="text-gray-700 text-xs sm:text-sm space-y-1 sm:space-y-2">
-            <div>
-              2252 N INDIAN CANYON DR <br /> PALM SPRINGS, CA{" "}
-              <span className="underline">92262-3065</span> <br /> United States
+            <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+              <span itemProp="streetAddress">2252 N INDIAN CANYON DR</span> <br /> 
+              <span itemProp="addressLocality">PALM SPRINGS</span>, 
+              <span itemProp="addressRegion">CA</span>{" "}
+              <span itemProp="postalCode" className="underline">92262-3065</span> <br /> 
+              <span itemProp="addressCountry">United States</span>
             </div>
-            <p>vsktechnology.us@gmail.com</p>
-            <p>(213) 715-5757</p>
+            <p itemProp="email">vsktechnology.us@gmail.com</p>
+            <p itemProp="telephone">(213) 715-5757</p>
           </div>
         </div>
+      </div>
+      <div className="max-w-6xl mx-auto mt-8 text-center text-xs text-gray-500">
+        <p>&copy; {new Date().getFullYear()} VSK Technology LLC. All rights reserved.</p>
+        <p className="mt-2 text-xs text-gray-400">
+          Created by <a href="https://telebots.site/" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500 transition-colors">Telebots</a>
+        </p>
       </div>
     </footer>
   );

@@ -7,12 +7,14 @@ interface AccordionProps {
   title: string;
   content: string;
   isDefaultOpen?: boolean;
+  hasFaqSchema?: boolean;
 }
 
 export default function Accordion({
   title,
   content,
   isDefaultOpen = false,
+  hasFaqSchema = false,
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const [height, setHeight] = useState<number | undefined>(
@@ -36,13 +38,23 @@ export default function Accordion({
   };
 
   return (
-    <div className="border-b border-gray-300 last:border-b-0 w-full">
+    <div 
+      className="border-b border-gray-300 last:border-b-0 w-full"
+      {...(hasFaqSchema ? {
+        itemScope: true,
+        itemProp: "mainEntity",
+        itemType: "https://schema.org/Question"
+      } : {})}
+    >
       <button
         className="w-full px-4 sm:px-5 md:px-6 py-3 sm:py-4 md:py-5 flex justify-between items-center text-left transition-colors duration-300 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 cursor-pointer rounded-t-md"
         onClick={toggleAccordion}
         aria-expanded={isOpen}
       >
-        <h3 className="text-base sm:text-lg md:text-lg text-gray-900 font-serif font-bold">
+        <h3 
+          className="text-base sm:text-lg md:text-lg text-gray-900 font-serif font-bold"
+          {...(hasFaqSchema ? { itemProp: "name" } : {})}
+        >
           {title}
         </h3>
         <div className="text-gray-700 transition-transform duration-300">
@@ -58,12 +70,20 @@ export default function Accordion({
         className="overflow-hidden transition-all duration-300 ease-in-out"
         style={{ height: height ? `${height}px` : "0px" }}
         aria-hidden={!isOpen}
+        {...(hasFaqSchema ? {
+          itemScope: true,
+          itemProp: "acceptedAnswer",
+          itemType: "https://schema.org/Answer"
+        } : {})}
       >
         <div
           className="px-4 sm:px-5 md:px-6 pb-3 sm:pb-4 md:pb-5"
           ref={contentRef}
         >
-          <p className="text-sm sm:text-base md:text-base text-gray-700 whitespace-pre-line">
+          <p 
+            className="text-sm sm:text-base md:text-base text-gray-700 whitespace-pre-line"
+            {...(hasFaqSchema ? { itemProp: "text" } : {})}
+          >
             {content}
           </p>
         </div>

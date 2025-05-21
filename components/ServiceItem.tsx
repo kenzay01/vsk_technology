@@ -7,9 +7,11 @@ import { useEffect } from "react";
 export default function ServiceItem({
   title,
   image,
+  description,
 }: {
   title: string;
   image: StaticImageData;
+  description?: string;
 }) {
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -52,11 +54,15 @@ export default function ServiceItem({
   }, []);
 
   return (
-    <div className="flex flex-col items-center w-full max-w-xs mx-auto h-full">
+    <div 
+      className="flex flex-col items-center w-full max-w-xs mx-auto h-full"
+      itemScope
+      itemType="https://schema.org/Service"
+    >
       <div className="h-16 flex items-center justify-center">
-        <h1 className="text-xl font-semibold text-center line-clamp-2 font-serif">
+        <h3 className="text-xl font-semibold text-center line-clamp-2 font-serif" itemProp="name">
           {title}
-        </h1>
+        </h3>
       </div>
 
       <div className="w-full h-48 mb-6 overflow-hidden shadow-lg">
@@ -67,8 +73,15 @@ export default function ServiceItem({
           width={320}
           height={192}
           priority
+          itemProp="image"
         />
       </div>
+
+      {description && (
+        <p className="text-sm text-center mb-4" itemProp="description">
+          {description}
+        </p>
+      )}
 
       <div className="flex flex-col gap-3">
         <a

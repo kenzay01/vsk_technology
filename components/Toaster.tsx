@@ -1,7 +1,7 @@
 // Toaster.tsx - Виправлений код
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface Toast {
   id: string;
@@ -22,10 +22,10 @@ export function Toaster({ addToast }: ToasterProps) {
   const generateId = () => Math.random().toString(36).substr(2, 9);
 
   // Add a new toast
-  const handleAddToast = (message: string, type: "success" | "error") => {
+  const handleAddToast = useCallback((message: string, type: "success" | "error") => {
     const newToast: Toast = { id: generateId(), message, type };
     setToasts((prev) => [...prev, newToast]);
-  };
+  }, []);
 
   // Remove a toast by ID
   const removeToast = (id: string) => {
@@ -35,7 +35,7 @@ export function Toaster({ addToast }: ToasterProps) {
   // Expose addToast function to parent components
   useEffect(() => {
     addToast.current = handleAddToast;
-  }, [addToast]);
+  }, [addToast, handleAddToast]);
 
   // Auto-dismiss toasts after 5 seconds
   useEffect(() => {
@@ -60,6 +60,7 @@ export function Toaster({ addToast }: ToasterProps) {
           <button
             onClick={() => removeToast(toast.id)}
             className="ml-4 text-white hover:text-gray-200 focus:outline-none"
+            aria-label="Close notification"
           >
             ✕
           </button>
