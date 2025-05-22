@@ -32,12 +32,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Improved mobile tap targets */
-a, button {
-  min-height: 44px;
-  min-width: 44px;
-}
-
 /* Hide elements with aria-hidden */
 [aria-hidden="true"] {
   display: none;

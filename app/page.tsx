@@ -11,7 +11,8 @@ import ClientSaying from "@/components/ClientSaying";
 
 export const metadata: Metadata = {
   title: "VSK Technology - Professional Appliance Repair Services",
-  description: "Reliable appliance repair from VSK Technology. Our qualified technicians provide fast and quality service for all your appliance needs.",
+  description:
+    "Reliable appliance repair from VSK Technology. Our qualified technicians provide fast and quality service for all your appliance needs.",
 };
 
 export default function Home() {
@@ -25,7 +26,7 @@ export default function Home() {
       <section id="aboutUs" aria-label="About Us">
         <AboutContainer />
       </section>
-      <section id="contactUs" aria-label="Book Online">
+      <section id="onlineAppointment" aria-label="Book Online">
         <OnlineAppointment />
       </section>
       <section id="process" aria-label="Our Work Process">

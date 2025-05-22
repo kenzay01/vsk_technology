@@ -135,11 +135,19 @@ export default function Footer() {
             Contacts
           </h2>
           <div className="text-gray-700 text-xs sm:text-sm space-y-1 sm:space-y-2">
-            <div itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
-              <span itemProp="streetAddress">2252 N INDIAN CANYON DR</span> <br /> 
-              <span itemProp="addressLocality">PALM SPRINGS</span>, 
+            <div
+              itemProp="address"
+              itemScope
+              itemType="https://schema.org/PostalAddress"
+            >
+              <span itemProp="streetAddress">2252 N INDIAN CANYON DR</span>{" "}
+              <br />
+              <span itemProp="addressLocality">PALM SPRINGS</span>,
               <span itemProp="addressRegion">CA</span>{" "}
-              <span itemProp="postalCode" className="underline">92262-3065</span> <br /> 
+              <span itemProp="postalCode" className="underline">
+                92262-3065
+              </span>{" "}
+              <br />
               <span itemProp="addressCountry">United States</span>
             </div>
             <p itemProp="email">vsktechnology.us@gmail.com</p>
@@ -148,9 +156,20 @@ export default function Footer() {
         </div>
       </div>
       <div className="max-w-6xl mx-auto mt-8 text-center text-xs text-gray-500">
-        <p>&copy; {new Date().getFullYear()} VSK Technology LLC. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} VSK Technology LLC. All rights
+          reserved.
+        </p>
         <p className="mt-2 text-xs text-gray-400">
-          Created by <a href="https://telebots.site/" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500 transition-colors">Telebots</a>
+          Created by{" "}
+          <a
+            href="https://telebots.site/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-amber-500 transition-colors"
+          >
+            Telebots
+          </a>
         </p>
       </div>
     </footer>
