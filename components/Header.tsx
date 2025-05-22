@@ -27,7 +27,7 @@ export default function Header() {
   ) => {
     e.preventDefault();
     const isMobile = window.innerWidth < 768;
-    const headerHeight = isMobile ? (href === "/#serviceArea" ? 265 : 250) : 0;
+    const headerHeight = isMobile ? (href === "/#serviceArea" ? 275 : 250) : 0;
 
     if (href.startsWith("/#")) {
       const sectionId = href.split("#")[1];
