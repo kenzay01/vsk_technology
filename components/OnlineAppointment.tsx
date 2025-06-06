@@ -272,7 +272,7 @@ export default function OnlineAppointment() {
 \\- Name: ${escapeMarkdown(formData.name)}
 \\- Phone: ${escapeMarkdown(normalizedPhone)}
 \\- Submission time: ${escapeMarkdown(new Date(currentTime).toLocaleString())}
-\\- Service call fee - $80
+\\- Service call fee: $80
       `.trim();
 
       const response = await fetch("/api/send-telegram", {
