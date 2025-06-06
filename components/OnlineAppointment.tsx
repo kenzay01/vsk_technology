@@ -49,6 +49,7 @@ export default function OnlineAppointment() {
     date: "",
     timeSlot: "",
     text: "",
+    agreeToServiceFee: false,
   });
   const [errors, setErrors] = useState({
     zipCode: "",
@@ -60,6 +61,7 @@ export default function OnlineAppointment() {
     date: "",
     timeSlot: "",
     text: "",
+    agreeToServiceFee: "",
   });
 
   const validatePhone = (phone: string) => {
@@ -95,8 +97,14 @@ export default function OnlineAppointment() {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+    const checked =
+      type === "checkbox" ? (e.target as HTMLInputElement).checked : undefined;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
 
     if (name === "zipCode") {
       const isValid = validateZipCode(value);
@@ -147,6 +155,13 @@ export default function OnlineAppointment() {
       setErrors((prev) => ({
         ...prev,
         text: value === "" ? "Message is required" : "",
+      }));
+    } else if (name === "agreeToServiceFee" && isFormVisible) {
+      setErrors((prev) => ({
+        ...prev,
+        agreeToServiceFee: checked
+          ? ""
+          : "You must agree to the service call fee",
       }));
     }
   };
@@ -199,6 +214,10 @@ export default function OnlineAppointment() {
       timeSlot:
         !formData.timeSlot && isFormVisible ? "Time slot is required" : "",
       text: !formData.text && isFormVisible ? "Message is required" : "",
+      agreeToServiceFee:
+        !formData.agreeToServiceFee && isFormVisible
+          ? "You must agree to the service call fee"
+          : "",
     };
 
     setErrors(newErrors);
@@ -212,7 +231,8 @@ export default function OnlineAppointment() {
       newErrors.applianceTypes ||
       newErrors.date ||
       newErrors.timeSlot ||
-      newErrors.text
+      newErrors.text ||
+      newErrors.agreeToServiceFee
     ) {
       addToastRef.current?.("Please fix the form errors", "error");
       return;
@@ -279,6 +299,7 @@ export default function OnlineAppointment() {
           date: "",
           timeSlot: "",
           text: "",
+          agreeToServiceFee: false,
         });
         setIsFormVisible(false);
         setIsOpen(false);
@@ -459,6 +480,37 @@ export default function OnlineAppointment() {
                   error={errors.text}
                   required={true}
                 />
+                <div className="mb-6 w-full">
+                  <div className="flex items-start">
+                    <input
+                      type="checkbox"
+                      id="agreeToServiceFee"
+                      name="agreeToServiceFee"
+                      checked={formData.agreeToServiceFee}
+                      onChange={handleChange}
+                      className="mr-3 mt-1 leading-tight"
+                    />
+                    <label
+                      htmlFor="agreeToServiceFee"
+                      className="text-gray-700 text-sm leading-relaxed"
+                    >
+                      <strong>I agree to pay the service call fee.</strong>
+                      <br />{" "}
+                      <span className="text-gray-600 italic">
+                        Our service call fee is $80, which covers the initial
+                        diagnosis and the technician's visit. The service call
+                        fee will be waived if you choose to proceed with the
+                        repair through us.
+                      </span>
+                      <span className="text-red-500 ml-1">*</span>
+                    </label>
+                  </div>
+                  {errors.agreeToServiceFee && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.agreeToServiceFee}
+                    </p>
+                  )}
+                </div>
                 <div
                   onClick={!loading ? handleSubmit : undefined}
                   className={`w-full bg-amber-500 hover:bg-amber-600 text-white py-3 px-6 rounded-md font-medium text-lg text-center cursor-pointer transition-colors ${

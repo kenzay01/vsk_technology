@@ -3,8 +3,8 @@
 export default function ClientSaying() {
   const containerInfo = [
     {
-      paragraph: `“They responded right away and scheduled the appointment. I would higly recommend. Very professional and polite.”`,
-      name: "Alexandra D.",
+      paragraph: `“VSK Technology was awesome. They were efficient in scheduling, diagnosing the problem and fixing it at a reasonable price. I would definitely recommend them to anyone who needs an appliance repair especially if you have a high end appliance like the Bertazzoni dishwasher. The door was not closing due to a latch and foot on the bottom of dishwasher. Thank you Vadym and VSK!”`,
+      name: "Nancy C.",
     },
     {
       paragraph: `“VSK Technology saved me! My dryer was not working, and they were
@@ -22,6 +22,10 @@ export default function ClientSaying() {
             highly recommend their services to anyone in need of appliance
             repairs.”`,
       name: "John D.",
+    },
+    {
+      paragraph: `“VSK Technology did such a great job fixing my refrigerator. the technician was very friendly and knowledgeable. the problem wasn't apparent and so he replaced several components until we found the faulty board. he came to my house at least 7 times to check on the refrigerator to make sure it was working since I was out of town and not able to monitor the situation. I felt comfortable enough to give him my key and let him come into the house and check the refrigerator when i was out of town and he sent back the key to me after he was convinced the job was done. I would highly recommend them for Applicance repair they are very capable and friendly and very trustworthy - not something you see often today.”`,
+      name: "Terry P.",
     },
     {
       paragraph: `“I was impressed by how quickly VSK Technology handled my oven
