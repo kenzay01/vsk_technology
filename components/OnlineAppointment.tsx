@@ -498,7 +498,7 @@ export default function OnlineAppointment() {
                       <br />{" "}
                       <span className="text-gray-600 italic">
                         Our service call fee is $80, which covers the initial
-                        diagnosis and the technician's visit. The service call
+                        diagnosis and the technician`s visit. The service call
                         fee will be waived if you choose to proceed with the
                         repair through us.
                       </span>
