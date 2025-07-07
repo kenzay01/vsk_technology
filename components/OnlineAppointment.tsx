@@ -280,7 +280,8 @@ export default function OnlineAppointment() {
 
     setLoading(true);
     try {
-      const currentUSTime = getCurrentUSTime();
+      const currentTime = new Date().toISOString();
+      // const currentUSTime = getCurrentUSTime();
       const formattedDate = formatDateForUS(formData.date);
       const formattedDateTime = `${formattedDate} ${formData.timeSlot}`;
 
@@ -310,7 +311,7 @@ export default function OnlineAppointment() {
 👤 *User information:*
 \\- Name: ${escapeMarkdown(formData.name)}
 \\- Phone: ${escapeMarkdown(normalizedPhone)}
-\\- Submission time: ${escapeMarkdown(currentUSTime)}
+\\- Submission time: ${escapeMarkdown(new Date(currentTime).toLocaleString())}
 \\- Service call fee: $80
       `.trim();
 
