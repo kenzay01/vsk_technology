@@ -91,18 +91,18 @@ export default function OnlineAppointment() {
   };
 
   // Функція для отримання поточного часу в американському часовому поясі
-  const getCurrentUSTime = () => {
-    const now = new Date();
-    return now.toLocaleString("en-US", {
-      timeZone: "America/New_York",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    });
-  };
+  // const getCurrentUSTime = () => {
+  //   const now = new Date();
+  //   return now.toLocaleString("en-US", {
+  //     timeZone: "America/New_York",
+  //     year: "numeric",
+  //     month: "2-digit",
+  //     day: "2-digit",
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //     second: "2-digit",
+  //   });
+  // };
 
   const validatePhone = (phone: string) => {
     const phoneRegex = /^(?:\+?1\s?)?(?:\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4}$/;
