@@ -64,6 +64,46 @@ export default function OnlineAppointment() {
     agreeToServiceFee: "",
   });
 
+  // Функція для отримання мінімальної дати в американському часовому поясі
+  const getMinDateInUSTime = () => {
+    const now = new Date();
+    const usDate = new Date(
+      now.toLocaleString("en-US", { timeZone: "America/New_York" })
+    );
+    return usDate.toISOString().split("T")[0];
+  };
+
+  // Функція для форматування дати в американському форматі
+  const formatDateForUS = (dateString: string) => {
+    if (!dateString) return "";
+
+    // Створюємо дату як локальну дату (без конвертації в UTC)
+    const [year, month, day] = dateString.split("-");
+    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+
+    // Форматуємо дату в американському форматі
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "America/New_York",
+    });
+  };
+
+  // Функція для отримання поточного часу в американському часовому поясі
+  const getCurrentUSTime = () => {
+    const now = new Date();
+    return now.toLocaleString("en-US", {
+      timeZone: "America/New_York",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
+
   const validatePhone = (phone: string) => {
     const phoneRegex = /^(?:\+?1\s?)?(?:\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4}$/;
     return phoneRegex.test(phone.trim()) || phone === "";
@@ -240,10 +280,9 @@ export default function OnlineAppointment() {
 
     setLoading(true);
     try {
-      const currentTime = new Date().toISOString();
-      const formattedDateTime = `${new Date(
-        formData.date
-      ).toLocaleDateString()} ${formData.timeSlot}`;
+      const currentUSTime = getCurrentUSTime();
+      const formattedDate = formatDateForUS(formData.date);
+      const formattedDateTime = `${formattedDate} ${formData.timeSlot}`;
 
       // Normalize phone number for submission
       let normalizedPhone = formData.phone.replace(/\D/g, "");
@@ -271,7 +310,7 @@ export default function OnlineAppointment() {
 👤 *User information:*
 \\- Name: ${escapeMarkdown(formData.name)}
 \\- Phone: ${escapeMarkdown(normalizedPhone)}
-\\- Submission time: ${escapeMarkdown(new Date(currentTime).toLocaleString())}
+\\- Submission time: ${escapeMarkdown(currentUSTime)}
 \\- Service call fee: $80
       `.trim();
 
@@ -445,6 +484,7 @@ export default function OnlineAppointment() {
                   onChange={handleChange}
                   error={errors.date}
                   required={true}
+                  min={getMinDateInUSTime()}
                 />
                 <div className="mb-6 w-full">
                   <label className="text-lg mb-2 font-medium text-gray-700 flex gap-2 items-center">

@@ -9,6 +9,7 @@ interface InputInfoProps {
   name?: string;
   maxLength?: number;
   pattern?: string;
+  min?: string;
 }
 
 export function InputInfo({
@@ -22,6 +23,7 @@ export function InputInfo({
   name,
   maxLength,
   pattern,
+  min,
 }: InputInfoProps) {
   return (
     <div className="mb-4 sm:mb-5 md:mb-6 w-full">
@@ -41,6 +43,7 @@ export function InputInfo({
           required={required}
           maxLength={maxLength}
           pattern={pattern}
+          min={min}
         />
         {error && (
           <p className="text-red-500 text-xs sm:text-sm mt-0.5 sm:mt-1">
